@@ -6,5 +6,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class House extends Model
 {
-    //
+    protected $fillable = [
+        'description',
+        'address_line_1',
+        'address_line_2',
+        'city',
+        'county',
+        'zip',
+        'beds',
+        'baths',
+        'square_metres',
+        'energy_rating',
+        'house_type',
+        'featured_image',
+    ];
 }
