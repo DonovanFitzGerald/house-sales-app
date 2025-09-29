@@ -13,7 +13,7 @@ class HouseController extends Controller
     public function index()
     {
         $houses = House::all();
-        return view('index.php', compact('houses'));
+        return view('houses.index', compact('houses'));
     }
 
     /**
