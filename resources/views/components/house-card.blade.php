@@ -16,7 +16,7 @@ $berBadge = function (string $rating): string {
 @props(['house'])
 
 <div class="col-12 col-sm-6 col-lg-4">
-    <a href="houses/{{ $house->id }}" class="text-decoration-none">
+    <a href="{{ route('houses.show', $house) }}" class="text-decoration-none">
         <div class="card shadow-sm h-100">
             {{-- Image --}}
             <div class="position-relative">
