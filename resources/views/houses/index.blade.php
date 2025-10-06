@@ -1,70 +1,44 @@
-{{-- resources/views/houses/index.blade.php --}}
-{{-- Single-file Blade view, styled with Bootstrap 5 (no routes used) --}}
 @php
     /** @var \Illuminate\Pagination\AbstractPaginator|\Illuminate\Support\Collection $houses */
 @endphp
 
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>Houses</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    {{-- Bootstrap 5 CDN (remove if you already include it elsewhere) --}}
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<x-app-layout>
+    <div class="mx-auto max-w-7xl px-4 py-6">
+        <div class="mb-6 flex items-center justify-between gap-3">
+            <h1 class="text-xl font-semibold text-gray-900">Houses</h1>
 
-    <style>
-        /* Utilities not in Bootstrap by default */
-        .line-clamp-2{
-            display:-webkit-box;
-            -webkit-line-clamp:2;
-            -webkit-box-orient:vertical;
-            overflow:hidden;
-        }
-    </style>
-</head>
-<body>
-<div class="container-lg py-4">
-    <div class="d-flex align-items-center justify-content-between gap-3 mb-4">
-        <h1 class="h3 mb-0">Houses</h1>
-
-        {{-- Optional inline search (same-page submission) --}}
-        <form method="GET" action="" class="d-flex align-items-center gap-2 ms-auto">
-            <input
-                type="text"
-                name="q"
-                value="{{ request('q') }}"
-                placeholder="Search city/county/zip…"
-                class="form-control form-control-sm"
-                style="width: 18rem"
-            >
-            <button class="btn btn-sm btn-dark">
-                Search
-            </button>
-        </form>
-    </div>
-
-    @if ($houses->count() === 0)
-        <div class="border rounded-3 bg-white p-5 text-center text-muted">
-            No houses found.
-        </div>
-    @else
-        <div class="row g-4">
-            @foreach ($houses as $house)
-                <x-house-card :house="$house" />
-            @endforeach
+            <form method="GET" action="" class="ml-auto flex items-center gap-2">
+                <input
+                    type="text"
+                    name="q"
+                    value="{{ request('q') }}"
+                    placeholder="Search city/county/zip…"
+                    class="w-72 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm placeholder:text-gray-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-300"
+                >
+                <button
+                    class="inline-flex items-center rounded-lg bg-gray-900 px-3 py-2 text-sm font-medium text-white hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-400"
+                >
+                    Search
+                </button>
+            </form>
         </div>
 
-        {{-- Pagination (Bootstrap 5 renderer if available) --}}
-        @if (method_exists($houses, 'links'))
-            <div class="mt-4">
-                {{ $houses->withQueryString()->links('pagination::bootstrap-5') }}
+        @if ($houses->count() === 0)
+            <div class="rounded-2xl border border-gray-200 bg-white p-8 text-center text-gray-500">
+                No houses found.
             </div>
-        @endif
-    @endif
-</div>
+        @else
+            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                @foreach ($houses as $house)
+                    <x-house-card :house="$house" />
+                @endforeach
+            </div>
 
-{{-- Bootstrap JS (optional, for components that need JS) --}}
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+            @if (method_exists($houses, 'links'))
+                <div class="mt-6">
+                    {{ $houses->withQueryString()->links() }}
+                </div>
+            @endif
+        @endif
+    </div>
+</x-app-layout>

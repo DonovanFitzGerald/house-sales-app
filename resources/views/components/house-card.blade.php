@@ -1,79 +1,104 @@
-
 @php
 $berBadge = function (string $rating): string {
-    // Map BER to Bootstrap badge variants
     return match ($rating) {
-        'A1','A2','A3' => 'text-bg-success',
-        'B1','B2','B3' => 'text-bg-success',
-        'C1','C2','C3' => 'text-bg-warning',
-        'D1','D2'      => 'text-bg-warning',
-        'E1','E2','F','G' => 'text-bg-danger',
-        default        => 'text-bg-secondary',
+        'A1','A2','A3'       => 'bg-emerald-100 text-emerald-700 ring-emerald-200',
+        'B1','B2','B3'       => 'bg-lime-100 text-lime-700 ring-lime-200',
+        'C1','C2','C3'       => 'bg-yellow-100 text-yellow-700 ring-yellow-200',
+        'D1','D2'            => 'bg-amber-100 text-amber-700 ring-amber-200',
+        'E1','E2','F','G'    => 'bg-red-100 text-red-700 ring-red-200',
+        default              => 'bg-gray-100 text-gray-700 ring-gray-200',
     };
 };
 @endphp
 
 @props(['house'])
 
-<div class="col-12 col-sm-6 col-lg-4">
-    <a href="{{ route('houses.show', $house) }}" class="text-decoration-none">
-        <div class="card shadow-sm h-100">
-            {{-- Image --}}
-            <div class="position-relative">
-                <div class="ratio ratio-4x3 bg-light">
-                    <img
-                        src="https://www.bhg.com/thmb/TD9qUnFen4PBLDuB2hn9yhGXPv8=/1866x0/filters:no_upscale():strip_icc()/white-house-a-frame-section-c0a4a3b3-e722202f114e4aeea4370af6dbb4312b.jpg"
-                        onerror="this.src='https://placehold.co/800x600?text=House';"
-                        alt="Photo of {{ $house->address_line_1 }}, {{ $house->city }}"
-                        class="object-fit-cover w-100 h-100"
-                    >
-                </div>
+<div class="w-full p-2">
+  <a href="{{ route('houses.show', $house) }}" class="group block focus:outline-none">
+    <article
+      class="flex h-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition
+             hover:-translate-y-0.5 hover:shadow-md focus-within:ring-2 focus-within:ring-indigo-500">
 
-                {{-- BER badge --}}
-                <span class="badge {{ $berBadge($house->energy_rating) }} position-absolute top-0 start-0 m-2 rounded-pill">
-                    {{ $house->energy_rating }}
-                </span>
-            </div>
+      {{-- Media --}}
+      <div class="relative">
+        <img
+          src="https://www.bhg.com/thmb/TD9qUnFen4PBLDuB2hn9yhGXPv8=/1866x0/filters:no_upscale():strip_icc()/white-house-a-frame-section-c0a4a3b3-e722202f114e4aeea4370af6dbb4312b.jpg"
+          onerror="this.src='https://placehold.co/800x600?text=House';"
+          alt="Photo of {{ $house->address_line_1 }}, {{ $house->city }}"
+          class="aspect-[4/3] w-full object-cover transition duration-300 group-hover:scale-[1.02]"
+        />
 
-            <div class="card-body">
-                <div class="d-flex align-items-start justify-content-between gap-3 mb-1">
-                    <h2 class="card-title h6 mb-0 text-truncate" title="{{ $house->address_line_1 }}">
-                        {{ $house->address_line_1 }}
-                    </h2>
-                    <span class="small text-muted text-capitalize">{{ $house->house_type }}</span>
-                </div>
+        <div class="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/55 to-transparent"></div>
 
-                <p class="card-subtitle small text-muted text-truncate mb-2"
-                    title="{{ $house->city }}, {{ $house->county }} {{ $house->zip }}">
-                    {{ $house->city }}, {{ $house->county }} {{ $house->zip }}
-                </p>
+        <h2
+          class="absolute bottom-2 left-3 right-3 truncate text-sm font-semibold text-white drop-shadow"
+          title="{{ $house->address_line_1 }}">
+          {{ $house->address_line_1 }}
+        </h2>
 
-                {{-- Quick facts --}}
-                <div class="d-flex align-items-center flex-wrap gap-3 small text-body-secondary">
-                    <span class="d-inline-flex align-items-center gap-1">
-                        {{-- bed icon --}}
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 7a3 3 0 0 1 3-3h6a3 3 0 0 1 3 3v3h1a1 1 0 0 1 1 1v6h-2v-2H4v2H2v-6a1 1 0 0 1 1-1h1V7h2Zm2 0v3h8V7a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1Z"/></svg>
-                        {{ $house->beds }} beds
-                    </span>
-                    <span class="d-inline-flex align-items-center gap-1">
-                        {{-- bath icon --}}
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 3a3 3 0 0 1 3 3v3h9a1 1 0 1 1 0 2h-1v3a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4v-3H3a1 1 0 1 1 0-2h1V6a3 3 0 0 1 3-3Zm0 2a1 1 0 0 0-1 1v3h4V6a1 1 0 0 0-1-1H7Z"/></svg>
-                        {{ $house->baths }} baths
-                    </span>
-                    <span class="d-inline-flex align-items-center gap-1">
-                        {{-- area icon --}}
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Zm0 2v14h14V5H5Z"/></svg>
-                        {{ number_format($house->square_metres) }} m²
-                    </span>
-                </div>
+        {{-- BER badge (no inline-flex) --}}
+        <span
+          class="absolute left-2 top-2 rounded-full px-2.5 py-1 text-xs font-medium ring-1 ring-inset {{ $berBadge($house->energy_rating) }}">
+          {{ $house->energy_rating }}
+        </span>
+      </div>
 
-                <p class="mt-2 mb-0 small text-body line-clamp-2">
-                    {{ $house->description }}
-                </p>
+      {{-- Body --}}
+      <div class="flex flex-1 flex-col p-4">
+        <div class="mb-1 flex items-center justify-between gap-3">
+          <p class="truncate text-xs text-gray-500"
+             title="{{ $house->city }}, {{ $house->county }} {{ $house->zip }}">
+            {{ $house->city }}, {{ $house->county }} {{ $house->zip }}
+          </p>
 
-                {{-- Make the whole card clickable --}}
-                <span class="stretched-link"></span>
-            </div>
+          <span
+            class="shrink-0 rounded-full bg-gray-50 px-2 py-0.5 text-[10px] font-medium capitalize text-gray-600 ring-1 ring-inset ring-gray-200">
+            {{ $house->house_type }}
+          </span>
         </div>
-    </a>
+
+        {{-- Facts row (no inline-flex) --}}
+        <dl class="mt-2 grid grid-cols-3 gap-2 text-xs text-gray-700">
+          <div class="flex items-center gap-1.5">
+            <svg class="h-4 w-4 text-gray-400" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M6 7a3 3 0 0 1 3-3h6a3 3 0 0 1 3 3v3h1a1 1 0 0 1 1 1v6h-2v-2H4v2H2v-6a1 1 0 0 1 1-1h1V7h2Zm2 0v3h8V7a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1Z"/>
+            </svg>
+            <dt class="sr-only">Beds</dt>
+            <dd>{{ $house->beds }} beds</dd>
+          </div>
+
+          <div class="flex items-center gap-1.5">
+            <svg class="h-4 w-4 text-gray-400" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M7 3a3 3 0 0 1 3 3v3h9a1 1 0 1 1 0 2h-1v3a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4v-3H3a1 1 0 1 1 0-2h1V6a3 3 0 0 1 3-3Zm0 2a1 1 0 0 0-1 1v3h4V6a1 1 0 0 0-1-1H7Z"/>
+            </svg>
+            <dt class="sr-only">Baths</dt>
+            <dd>{{ $house->baths }} baths</dd>
+          </div>
+
+          <div class="flex items-center gap-1.5">
+            <svg class="h-4 w-4 text-gray-400" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Zm0 2v14h14V5H5Z"/>
+            </svg>
+            <dt class="sr-only">Area</dt>
+            <dd>{{ number_format($house->square_metres) }} m²</dd>
+          </div>
+        </dl>
+
+        <p class="mt-3 line-clamp-2 text-sm text-gray-700">
+          {{ $house->description }}
+        </p>
+      </div>
+
+      {{-- Footer --}}
+      <div class="flex items-center justify-between border-t border-gray-100 px-4 py-3">
+        <span class="text-xs text-gray-500">Tap to view details</span>
+        <span class="flex items-center gap-1 text-sm font-medium text-indigo-600 group-hover:text-indigo-700">
+          View
+          <svg class="h-4 w-4 transition-transform group-hover:translate-x-0.5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M3 10a1 1 0 0 1 1-1h9.586L11.293 6.707a1 1 0 1 1 1.414-1.414l4 4a1 1 0 0 1 0 1.414l-4 4a1 1 0 1 1-1.414-1.414L13.586 11H4a1 1 0 0 1-1-1Z" clip-rule="evenodd"/>
+          </svg>
+        </span>
+      </div>
+    </article>
+  </a>
 </div>
