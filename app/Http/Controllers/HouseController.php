@@ -37,7 +37,7 @@ class HouseController extends Controller
      */
     public function show(House $house)
     {
-        //
+        return view('houses.show')->with('house', $house);
     }
 
     /**

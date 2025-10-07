@@ -25,7 +25,7 @@ return new class extends Migration
             $table->integer('square_metres');
             $table->enum('energy_rating', ['A1', 'A2', 'A3', 'B1', 'B2', 'B3',  'C1', 'C2', 'C3', 'D1', 'D2', 'E1', 'E2', 'F', 'G']);
             $table->enum('house_type', ['detatched', 'semi-detached', 'terraced', 'bungalow', 'apartment', 'studio']);
-            $table->integer('featured_image');
+            $table->string('featured_image');
         });
     }
 
