@@ -10,7 +10,7 @@ $badgeFor = static function (string $rating): string {
     };
 };
 
-$img = $house->featured_image_url ?? asset('storage/houses/'.$house->featured_image.'.jpg');
+$img = $house->featured_image_url ?? asset('images/'.$house->featured_image);
 
 $address = trim(collect([
     $house->address_line_1,
@@ -89,9 +89,6 @@ $prettyType = \Illuminate\Support\Str::headline(str_replace('detatched', 'detach
                 <div class="mt-8 flex flex-wrap items-center gap-3">
                     <a href="{{ route('houses.index') }}" class="inline-flex items-center rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-800 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-300">
                         Browse more
-                    </a>
-                    <a href="{{ route('houses.show', $house) }}" class="inline-flex items-center rounded-lg bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-400">
-                        View photos
                     </a>
                 </div>
             </div>

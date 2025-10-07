@@ -22,7 +22,7 @@ $berBadge = function (string $rating): string {
       {{-- Media --}}
       <div class="relative">
         <img
-          src="https://www.bhg.com/thmb/TD9qUnFen4PBLDuB2hn9yhGXPv8=/1866x0/filters:no_upscale():strip_icc()/white-house-a-frame-section-c0a4a3b3-e722202f114e4aeea4370af6dbb4312b.jpg"
+          src="{{ $house->featured_image_url ?? asset('images/'.$house->featured_image) }}"
           onerror="this.src='https://placehold.co/800x600?text=House';"
           alt="Photo of {{ $house->address_line_1 }}, {{ $house->city }}"
           class="aspect-[4/3] w-full object-cover transition duration-300 group-hover:scale-[1.02]"
