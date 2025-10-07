@@ -21,7 +21,7 @@ class HouseController extends Controller
      */
     public function create()
     {
-        //
+        return view('houses.create');
     }
 
     /**
@@ -29,7 +29,46 @@ class HouseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'address_line_1' => 'required|string',
+            'address_line_2' => 'nullable|string',
+            'city' => 'required|string',
+            'county' => 'required|string',
+            'zip' => 'required|string',
+            'beds' => 'required|integer',
+            'baths' => 'required|integer',
+            'square_metres' => 'required|integer',
+            'energy_rating' => 'required|string',
+            'house_type' => 'required|string',
+            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+
+        if ($request->hasFile('image')) {
+            $imageName = $request->house_type . '_' . time() . '.' . $request->image->extension();
+            $request->file('image')->move(public_path('images/houses'), $imageName);
+        }
+
+        House::create([
+            'title' => $request->title,
+            'description' => $request->description,
+            'address_line_1' => $request->address_line_1,
+            'address_line_2' => $request->address_line_2,
+            'city' => $request->city,
+            'county' => $request->county,
+            'zip' => $request->zip,
+            'beds' => $request->beds,
+            'baths' => $request->baths,
+            'square_metres' => $request->square_metres,
+            'energy_rating' => $request->energy_rating,
+            'house_type' => $request->house_type,
+            'featured_image' => $imageName,
+        ]);
+
+        return redirect()->route('houses.index')->with('success', 'House created successfully.');
+
     }
 
     /**

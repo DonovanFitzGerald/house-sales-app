@@ -20,5 +20,7 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/houses', [HouseController::class, 'index'])->name('houses.index');
 Route::get('/houses/{house}', [HouseController::class, 'show'])->name('houses.show');
+Route::get('/houses/create', [HouseController::class, 'create'])->name('houses.create');
+Route::post('/houses', [HouseController::class, 'store'])->name('houses.store');
 
 require __DIR__.'/auth.php';
