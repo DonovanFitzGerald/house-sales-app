@@ -24,5 +24,6 @@ Route::get('/houses/{house}', [HouseController::class, 'show'])->name('houses.sh
 Route::post('/houses', [HouseController::class, 'store'])->name('houses.store');
 Route::get('/houses/{house}/edit', [HouseController::class, 'edit'])->name('houses.edit');
 Route::put('/houses/{house}', [HouseController::class, 'update'])->name('houses.update');
+Route::delete('/houses/{house}', [HouseController::class, 'destroy'])->name('houses.destroy');
 
 require __DIR__.'/auth.php';
