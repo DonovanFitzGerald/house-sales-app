@@ -3,21 +3,18 @@
 @endphp
 
 <x-app-layout>
+    <x-alert-success>
+        {{ session('success') }}
+    </x-alert-success>
     <div class="mx-auto max-w-7xl px-4 py-6">
         <div class="mb-6 flex items-center justify-between gap-3">
             <h1 class="text-xl font-semibold text-gray-900">Houses</h1>
 
             <form method="GET" action="" class="ml-auto flex items-center gap-2">
-                <input
-                    type="text"
-                    name="q"
-                    value="{{ request('q') }}"
-                    placeholder="Search city/county/zip…"
-                    class="w-72 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm placeholder:text-gray-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-300"
-                >
+                <input type="text" name="q" value="{{ request('q') }}" placeholder="Search city/county/zip…"
+                    class="w-72 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm placeholder:text-gray-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-300">
                 <button
-                    class="inline-flex items-center rounded-lg bg-gray-900 px-3 py-2 text-sm font-medium text-white hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-400"
-                >
+                    class="inline-flex items-center rounded-lg bg-gray-900 px-3 py-2 text-sm font-medium text-white hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-400">
                     Search
                 </button>
             </form>
