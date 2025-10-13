@@ -83,7 +83,7 @@ class HouseController extends Controller
      */
     public function edit(House $house)
     {
-        //
+        return view('houses.edit')->with('house', $house);
     }
 
     /**
@@ -99,6 +99,6 @@ class HouseController extends Controller
      */
     public function destroy(House $house)
     {
-        //
+        House::where('id', $house->id)->delete();
     }
 }
