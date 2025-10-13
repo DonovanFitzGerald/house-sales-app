@@ -102,4 +102,22 @@
       </div>
     </article>
   </a>
+  <div class="mt-4 flex space-x-2">
+    <!-- Edit Button route to houses.edit and receives $house for editing -->
+    <a href="{{ route('houses.edit', $house) }}"
+      class="text-white bg-orange-500 hover:bg-orange-700 font-bold py-2 px-4 rounded">
+      Edit
+    </a>
+
+    <!-- Delete Button (you need a form to send DELETE requests) -->
+    <!-- Delete Button route to houses.destroy -->
+    <form action="{{ route('houses.destroy', $house) }}" method="POST"
+      onsubmit="return confirm('Are you sure you want to delete this house?');">
+      @csrf
+      @method('DELETE')
+      <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+        Delete
+      </button>
+    </form>
+  </div>
 </div>
