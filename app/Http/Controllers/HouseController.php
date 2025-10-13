@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\House;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class HouseController extends Controller
 {
@@ -31,7 +32,6 @@ class HouseController extends Controller
     {
 
         $request->validate([
-            'title' => 'required|string|max:255',
             'description' => 'required|string',
             'address_line_1' => 'required|string',
             'address_line_2' => 'nullable|string',
@@ -64,11 +64,10 @@ class HouseController extends Controller
             'square_metres' => $request->square_metres,
             'energy_rating' => $request->energy_rating,
             'house_type' => $request->house_type,
-            'featured_image' => $imageName,
+            'image' => $imageName,
         ]);
 
-        return redirect()->route('houses.index')->with('success', 'House created successfully.');
-
+        return to_route('houses.index')->with('success', 'House created successfully.');
     }
 
     /**

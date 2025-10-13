@@ -3,9 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class House extends Model
 {
+
+    use HasFactory;
+    
     protected $fillable = [
         'description',
         'address_line_1',
@@ -18,6 +22,6 @@ class House extends Model
         'square_metres',
         'energy_rating',
         'house_type',
-        'featured_image',
+        'image',
     ];
 }

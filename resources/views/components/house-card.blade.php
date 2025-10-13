@@ -20,7 +20,7 @@
 
       {{-- Media --}}
       <div class="relative">
-        <img src="{{ $house->featured_image_url ?? asset('images/houses/' . $house->featured_image) }}"
+        <img src="{{ $house->image_url ?? asset('images/houses/' . $house->image) }}"
           onerror="this.src='https://placehold.co/800x600?text=House';"
           alt="Photo of {{ $house->address_line_1 }}, {{ $house->city }}"
           class="aspect-[4/3] w-full object-cover transition duration-300 group-hover:scale-[1.02]" />

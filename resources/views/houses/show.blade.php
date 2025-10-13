@@ -10,7 +10,7 @@
         };
     };
 
-    $img = $house->featured_image_url ?? asset('images/houses/' . $house->featured_image);
+    $img = $house->image_url ?? asset('images/houses/' . $house->image);
 
     $address = trim(collect([
         $house->address_line_1,
