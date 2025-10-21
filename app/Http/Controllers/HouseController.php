@@ -43,16 +43,15 @@ class HouseController extends Controller
             'square_metres' => 'required|integer',
             'energy_rating' => 'required|string',
             'house_type' => 'required|string',
-            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'featured_image' => 'required|image|mimes:jpeg,png,jpg|max:4096',
         ]);
 
-        if ($request->hasFile('image')) {
-            $imageName = $request->house_type . '_' . time() . '.' . $request->image->extension();
-            $request->file('image')->move(public_path('images/houses'), $imageName);
+        if ($request->hasFile('featured_image')) {
+            $featured_imageName = $request->house_type . '_' . time() . '.' . $request->featured_image->extension();
+            $request->file('featured_image')->move(public_path('images/houses'), $featured_imageName);
         }
 
         House::create([
-            'title' => $request->title,
             'description' => $request->description,
             'address_line_1' => $request->address_line_1,
             'address_line_2' => $request->address_line_2,
@@ -64,7 +63,7 @@ class HouseController extends Controller
             'square_metres' => $request->square_metres,
             'energy_rating' => $request->energy_rating,
             'house_type' => $request->house_type,
-            'image' => $imageName,
+            'featured_image' => $featured_imageName,
         ]);
 
         return to_route('houses.index')->with('success', 'House created successfully.');
@@ -91,7 +90,44 @@ class HouseController extends Controller
      */
     public function update(Request $request, House $house)
     {
-        //
+        $request->validate([
+            'description' => 'required|string',
+            'address_line_1' => 'required|string',
+            'address_line_2' => 'nullable|string',
+            'city' => 'required|string',
+            'county' => 'required|string',
+            'zip' => 'required|string',
+            'beds' => 'required|integer',
+            'baths' => 'required|integer',
+            'square_metres' => 'required|integer',
+            'energy_rating' => 'required|string',
+            'house_type' => 'required|string',
+            'featured_image' => 'image|mimes:jpeg,png,jpg|max:4096',
+        ]);
+
+         $featured_image_path = $house->featured_image;
+
+        if ($request->hasFile('featured_image')) {
+            $featured_image_path = $request->house_type . '_' . time() . '.' . $request->featured_image->extension();
+            $request->file('featured_image')->move(public_path('images/houses'), $featured_image_path);
+        }
+
+        $house->update([
+            'description' => $request->description,
+            'address_line_1' => $request->address_line_1,
+            'address_line_2' => $request->address_line_2,
+            'city' => $request->city,
+            'county' => $request->county,
+            'zip' => $request->zip,
+            'beds' => $request->beds,
+            'baths' => $request->baths,
+            'square_metres' => $request->square_metres,
+            'energy_rating' => $request->energy_rating,
+            'house_type' => $request->house_type,
+            'featured_image' => $featured_image_path,
+        ]);
+
+        return to_route('houses.index')->with('success', 'House edited successfully.');
     }
 
     /**

@@ -20,7 +20,7 @@
 
 <form action="{{ $action }}" method="POST" enctype="multipart/form-data" {{ $attributes->merge(['class' => 'space-y-6']) }}>
     @csrf
-    @if (strtoupper($method) !== 'POST')
+    @if($method === 'PUT' || $method === 'PATCH')
         @method($method)
     @endif
 
@@ -119,24 +119,23 @@
             {{-- Preview box --}}
             <div class="mt-2 flex items-start gap-4">
                 <div class="h-32 w-48 overflow-hidden rounded-lg border border-gray-200 bg-gray-50">
-                    <img id="featured_image_preview"
+                    <img id="image_preview"
                          src="{{ $existingImageUrl ?? '' }}"
                          alt="Preview"
                          class="h-full w-full object-cover {{ $existingImageUrl ? '' : 'hidden' }}">
                 </div>
 
                 <div class="flex-1">
-                    <input id="featured_image_input" type="file" name="featured_image" accept="image/*"
+                    <input id="image_input" type="file" name="featured_image" value="{{ $house->image }}"
                            class="mt-1 block w-full cursor-pointer rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm file:mr-4 file:rounded-md file:border-0 file:bg-gray-900 file:px-3 file:py-2 file:text-sm file:font-medium file:text-white hover:file:bg-gray-800 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-300">
-                    @error('featured_image')<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror
+                    @error('image')<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror
 
-                    {{-- Keep existing image if user doesn't upload a new one --}}
-                    @if($house?->featured_image)
-                        <input type="hidden" name="existing_featured_image" value="{{ $house->featured_image }}">
+                    @if($house?->image)
+                        <input type="hidden" name="existing_image" >
                         <p class="mt-2 text-xs text-gray-500">Current image will be kept unless you choose a new file.</p>
                     @endif
 
-                    <button type="button" id="featured_image_clear"
+                    <button type="button" id="image_clear"
                             class="mt-2 inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-1.5 text-xs font-medium text-gray-700 hover:bg-gray-50">
                         Reset image
                     </button>
@@ -147,40 +146,42 @@
 
     <div class="flex items-center justify-end gap-3">
         <a href="{{ url()->previous() }}" class="inline-flex items-center rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-800 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-300">Cancel</a>
-        <button type="submit" class="inline-flex items-center rounded-lg bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-400">{{ $submitLabel }}</button>
+        <button type="submit" class="inline-flex items-center rounded-lg bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-400">
+            {{ $submitLabel }}
+        </button>
     </div>
 </form>
 
 {{-- Tiny inline preview script --}}
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-    const input = document.getElementById('featured_image_input');
-    const img   = document.getElementById('featured_image_preview');
-    const clear = document.getElementById('featured_image_clear');
+    document.addEventListener('DOMContentLoaded', () => {
+        const input = document.getElementById('image_input');
+        const img   = document.getElementById('image_preview');
+        const clear = document.getElementById('image_clear');
 
-    function showPreview(file) {
-        if (!file) return;
-        const url = URL.createObjectURL(file);
-        img.src = url;
-        img.classList.remove('hidden');
-    }
-
-    input.addEventListener('change', (e) => {
-        const [file] = e.target.files || [];
-        if (file) showPreview(file);
-    });
-
-    clear.addEventListener('click', () => {
-        input.value = '';
-        // If there was an initial image, fall back to it; otherwise hide preview
-        const initial = '{{ $existingImageUrl ?? '' }}';
-        if (initial) {
-            img.src = initial;
+        function showPreview(file) {
+            if (!file) return;
+            const url = URL.createObjectURL(file);
+            img.src = url;
             img.classList.remove('hidden');
-        } else {
-            img.src = '';
-            img.classList.add('hidden');
         }
+
+        input.addEventListener('change', (e) => {
+            const [file] = e.target.files || [];
+            if (file) showPreview(file);
+        });
+
+        clear.addEventListener('click', () => {
+            input.value = '';
+            // If there was an initial image, fall back to it; otherwise hide preview
+            const initial = '{{ $existingImageUrl ?? '' }}';
+            if (initial) {
+                img.src = initial;
+                img.classList.remove('hidden');
+            } else {
+                img.src = '';
+                img.classList.add('hidden');
+            }
+        });
     });
-});
 </script>

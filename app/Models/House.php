@@ -22,6 +22,6 @@ class House extends Model
         'square_metres',
         'energy_rating',
         'house_type',
-        'image',
+        'featured_image',
     ];
 }
