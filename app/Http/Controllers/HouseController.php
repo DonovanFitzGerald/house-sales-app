@@ -136,5 +136,7 @@ class HouseController extends Controller
     public function destroy(House $house)
     {
         House::where('id', $house->id)->delete();
+
+         return to_route('houses.index')->with('success', 'House deleted successfully.');
     }
 }
