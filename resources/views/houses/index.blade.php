@@ -1,7 +1,3 @@
-@php
-    /** @var \Illuminate\Pagination\AbstractPaginator|\Illuminate\Support\Collection $houses */
-@endphp
-
 <x-app-layout>
     <x-alert-success>
         {{ session('success') }}
