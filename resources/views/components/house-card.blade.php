@@ -19,11 +19,11 @@
              hover:-translate-y-0.5 hover:shadow-md focus-within:ring-2 focus-within:ring-indigo-500">
 
       {{-- Media --}}
-      <div class="relative">
+      <div class="relative group-hover:scale-[1.02]">
         <img src="{{ $house->featured_image_url ?? asset('images/houses/' . $house->featured_image) }}"
           onerror="this.src='https://placehold.co/800x600?text=House';"
           alt="Photo of {{ $house->address_line_1 }}, {{ $house->city }}"
-          class="aspect-[4/3] w-full object-cover transition duration-300 group-hover:scale-[1.02]" />
+          class="aspect-[4/3] w-full object-cover transition duration-300 " />
 
         <div class="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/55 to-transparent">
         </div>
@@ -115,7 +115,7 @@
       onsubmit="return confirm('Are you sure you want to delete this house?');">
       @csrf
       @method('DELETE')
-      <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+      <button type="submit" class="bg-red-500 cursor-pointer hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
         Delete
       </button>
     </form>
