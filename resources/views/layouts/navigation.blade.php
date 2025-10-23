@@ -15,9 +15,13 @@
                     <x-nav-link :href="route('houses.index')" :active="request()->routeIs('houses.index')">
                         {{ __('View All Houses') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('houses.create')" :active="request()->routeIs('houses.create')">
-                        {{ __('Create New House') }}
-                    </x-nav-link>
+
+                    @if(auth()->user()->role === 'admin')
+                        <x-nav-link :href="route('houses.create')" :active="request()->routeIs('houses.create')">
+                            {{ __('Create New House') }}
+                        </x-nav-link>
+                    @endif
+
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
