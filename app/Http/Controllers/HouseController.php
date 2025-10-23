@@ -36,7 +36,7 @@ class HouseController extends Controller
             })
             ->latest('created_at')
             ->paginate(12)
-            ->withQueryString(); 
+            ->withQueryString();
 
         return view('houses.index', compact('houses'));
     }
@@ -71,7 +71,7 @@ class HouseController extends Controller
         ]);
 
         if ($request->hasFile('featured_image')) {
-            $featured_imageName = $request->house_type . '_' . time() . '.' . $request->featured_image->extension();
+            $featured_imageName = $request->house_type.'_'.time().'.'.$request->featured_image->extension();
             $request->file('featured_image')->move(public_path('images/houses'), $featured_imageName);
         }
 
@@ -129,10 +129,10 @@ class HouseController extends Controller
             'featured_image' => 'image|mimes:jpeg,png,jpg|max:4096',
         ]);
 
-         $featured_image_path = $house->featured_image;
+        $featured_image_path = $house->featured_image;
 
         if ($request->hasFile('featured_image')) {
-            $featured_image_path = $request->house_type . '_' . time() . '.' . $request->featured_image->extension();
+            $featured_image_path = $request->house_type.'_'.time().'.'.$request->featured_image->extension();
             $request->file('featured_image')->move(public_path('images/houses'), $featured_image_path);
         }
 
@@ -161,6 +161,6 @@ class HouseController extends Controller
     {
         House::where('id', $house->id)->delete();
 
-         return to_route('houses.index')->with('success', 'House deleted successfully.');
+        return to_route('houses.index')->with('success', 'House deleted successfully.');
     }
 }

@@ -2,14 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class House extends Model
 {
-
     use HasFactory;
-    
+
     protected $fillable = [
         'description',
         'address_line_1',
