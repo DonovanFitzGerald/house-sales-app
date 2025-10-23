@@ -11,9 +11,33 @@ class HouseController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $houses = House::all();
+        $term = trim($request->string('q'));
+
+        $columns = [
+            'description',
+            'address_line_1',
+            'address_line_2',
+            'city',
+            'county',
+            'zip',
+            'energy_rating',
+            'house_type',
+        ];
+
+        $houses = House::query()
+            ->when($term !== '', function ($q) use ($columns, $term) {
+                $q->where(function ($q) use ($columns, $term) {
+                    foreach ($columns as $col) {
+                        $q->orWhere($col, 'like', "%{$term}%");
+                    }
+                });
+            })
+            ->latest('created_at')
+            ->paginate(12)
+            ->withQueryString(); 
+
         return view('houses.index', compact('houses'));
     }
 
