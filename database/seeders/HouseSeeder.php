@@ -21,10 +21,10 @@ class HouseSeeder extends Seeder
             'Waterford', 'Westmeath', 'Wexford', 'Wicklow',
         ];
         $energyRatings = ['A1', 'A2', 'A3', 'B1', 'B2', 'B3', 'C1', 'C2', 'C3', 'D1', 'D2', 'E1', 'E2', 'F', 'G'];
-        $houseTypes = ['detatched', 'semi-detached', 'terraced', 'bungalow', 'apartment', 'studio'];
+        $houseTypes = ['detached', 'semi-detached', 'terraced', 'bungalow', 'apartment'];
 
         $rows = [];
-        for ($i = 0; $i < 100; $i++) {
+        for ($i = 0; $i < 300; $i++) {
             $rows[] = [
                 'description' => $faker->paragraphs(2, true),
                 'address_line_1' => $faker->buildingNumber().' '.$faker->streetName(),
@@ -37,7 +37,7 @@ class HouseSeeder extends Seeder
                 'square_metres' => $faker->numberBetween(35, 300),
                 'energy_rating' => $faker->randomElement($energyRatings),
                 'house_type' => $faker->randomElement($houseTypes),
-                'featured_image' => 'detached_'.$faker->numberBetween(1, 10).'.jpg',
+                'featured_image' => $faker->randomElement($houseTypes) . "_" . $faker->numberBetween(1, 5) . '.jpg',
                 'created_at' => now(),
                 'updated_at' => now(),
             ];
