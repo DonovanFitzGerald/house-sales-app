@@ -1,7 +1,4 @@
 <x-app-layout>
-    <x-alert-success>
-        {{ session('success') }}
-    </x-alert-success>
     <div class="mx-auto max-w-7xl px-4 py-6">
         <div class="mb-6 flex items-center justify-between gap-3">
             <h1 class="text-xl font-semibold text-gray-900">Houses</h1>
@@ -17,21 +14,21 @@
         </div>
 
         @if ($houses->count() === 0)
-            <div class="rounded-2xl border border-gray-200 bg-white p-8 text-center text-gray-500">
-                No houses found.
-            </div>
+        <div class="rounded-2xl border border-gray-200 bg-white p-8 text-center text-gray-500">
+            No houses found.
+        </div>
         @else
-            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                @foreach ($houses as $house)
-                    <x-house-card :house="$house" />
-                @endforeach
-            </div>
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            @foreach ($houses as $house)
+            <x-house-card :house="$house" />
+            @endforeach
+        </div>
 
-            @if (method_exists($houses, 'links'))
-                <div class="mt-6">
-                    {{ $houses->withQueryString()->links() }}
-                </div>
-            @endif
+        @if (method_exists($houses, 'links'))
+        <div class="mt-6">
+            {{ $houses->withQueryString()->links() }}
+        </div>
+        @endif
         @endif
     </div>
 </x-app-layout>
