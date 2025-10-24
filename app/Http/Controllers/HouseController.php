@@ -151,7 +151,7 @@ class HouseController extends Controller
             'featured_image' => $featured_image_path,
         ]);
 
-        return to_route('houses.index')->with('success', 'House edited successfully.');
+        return to_route('houses.show', $house->id)->with('success', 'House edited successfully.');
     }
 
     /**
