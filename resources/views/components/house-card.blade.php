@@ -111,7 +111,6 @@
         Edit
       </a>
 
-      <!-- Delete Button (you need a form to send DELETE requests) -->
       <!-- Delete Button route to houses.destroy -->
       <form action="{{ route('houses.destroy', $house) }}" method="POST"
         onsubmit="return confirm('Are you sure you want to delete this house?');">
