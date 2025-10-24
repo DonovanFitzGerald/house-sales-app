@@ -126,10 +126,10 @@
                             class="inline-flex flex-1 items-center justify-center rounded-lg bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-400">
                             Contact
                         </a>
-                        <a href="{{ route('houses.edit', $house) }}"
-                            class="inline-flex flex-1 items-center justify-center rounded-lg bg-amber-500 px-4 py-2 text-sm font-medium text-white hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-gray-400">
+                        <button onmousedown=openModal()
+                            class="inline-flex flex-1 items-center justify-center rounded-lg bg-amber-500 px-4 py-2 text-sm font-medium text-white hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-gray-400 cursor-pointer">
                             Edit
-                        </a>
+                        </button>
                         <a href="{{ route('houses.destroy', $house) }}"
                             class="inline-flex flex-1 items-center justify-center rounded-lg bg-red-700 px-4 py-2 text-sm font-medium text-white hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-gray-400">
                             Delete
@@ -139,4 +139,18 @@
             </div>
         </div>
     </div>
+
+    <div id="edit-modal" style="visibility: hidden"
+        class="shadow-md p-5 rounded-2xl fixed w-2/3 top-1/2 left-1/2 -translate-1/2 bg-white ">
+        <x-house-form action="{{ route('houses.update', $house) }}" method="PUT" :house="$house" />
+    </div>
+
+    <script>
+        const openModal = () =>
+        {
+            const modal = document.querySelector('#edit-modal');
+            const modalVisibility = document.querySelector('#edit-modal').style.visibility;
+            modal.style.visibility = modalVisibility === "visible" ? "hidden" : "visible";
+        }
+    </script>
 </section>
