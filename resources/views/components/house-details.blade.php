@@ -1,20 +1,21 @@
 @props(['house'])
 
 @php
-    $badgeFor = static function (string $rating): string {
-        return match ($rating) {
-            'A1', 'A2', 'A3' => 'bg-emerald-100 text-emerald-700 ring-emerald-200',
-            'B1', 'B2', 'B3' => 'bg-lime-100 text-lime-700 ring-lime-200',
-            'C1', 'C2', 'C3' => 'bg-yellow-100 text-yellow-700 ring-yellow-200',
-            'D1', 'D2' => 'bg-amber-100 text-amber-700 ring-amber-200',
-            'E1', 'E2', 'F', 'G' => 'bg-red-100 text-red-700 ring-red-200',
-            default => 'bg-gray-100 text-gray-700 ring-gray-200',
-        };
-    };
+$badgeFor = static function (string $rating): string {
+return match ($rating) {
+'A1', 'A2', 'A3' => 'bg-emerald-100 text-emerald-700 ring-emerald-200',
+'B1', 'B2', 'B3' => 'bg-lime-100 text-lime-700 ring-lime-200',
+'C1', 'C2', 'C3' => 'bg-yellow-100 text-yellow-700 ring-yellow-200',
+'D1', 'D2' => 'bg-amber-100 text-amber-700 ring-amber-200',
+'E1', 'E2', 'F', 'G' => 'bg-red-100 text-red-700 ring-red-200',
+default => 'bg-gray-100 text-gray-700 ring-gray-200',
+};
+};
 
-    $img = $house->featured_image_url ?? asset('images/houses/' . $house->featured_image);
-    $address = trim(collect([$house->address_line_1, $house->address_line_2, $house->city, $house->county, $house->zip])->filter()->implode(', '));
-    $prettyType = \Illuminate\Support\Str::headline(str_replace('detatched', 'detached', $house->house_type));
+$img = $house->featured_image_url ?? asset('images/houses/' . $house->featured_image);
+$address = trim(collect([$house->address_line_1, $house->address_line_2, $house->city, $house->county,
+$house->zip])->filter()->implode(', '));
+$prettyType = \Illuminate\Support\Str::headline(str_replace('detatched', 'detached', $house->house_type));
 @endphp
 
 <section class="mx-auto max-w-7xl px-4 py-6">
@@ -128,19 +129,19 @@
                         </a>
 
                         @if(auth()->user()->role === 'admin')
-                            <button onmousedown=openModal()
-                                class="inline-flex flex-1 items-center justify-center rounded-lg bg-amber-500 px-4 py-2 text-sm font-medium text-white hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-gray-400 cursor-pointer">
-                                Edit
+                        <button onmousedown=toggleModal()
+                            class="inline-flex flex-1 items-center justify-center rounded-lg bg-amber-500 px-4 py-2 text-sm font-medium text-white hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-gray-400 cursor-pointer">
+                            Edit
+                        </button>
+                        <form action="{{ route('houses.destroy', $house) }}" method="POST"
+                            onsubmit="return confirm('Are you sure you want to delete this house?');" class="w-full">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit"
+                                class="cursor-pointer w-full flex flex-1 items-center justify-center rounded-lg bg-red-700 px-4 py-2 text-sm font-medium text-white hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-gray-400">
+                                Delete
                             </button>
-                            <form action="{{ route('houses.destroy', $house) }}" method="POST"
-                                onsubmit="return confirm('Are you sure you want to delete this house?');" class="w-full">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit"
-                                    class="cursor-pointer w-full flex flex-1 items-center justify-center rounded-lg bg-red-700 px-4 py-2 text-sm font-medium text-white hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-gray-400">
-                                    Delete
-                                </button>
-                            </form>
+                        </form>
                         @endif
 
                     </div>
@@ -150,16 +151,18 @@
     </div>
 
     <div id="edit-modal" style="visibility: hidden"
-        class="shadow-md p-5 rounded-2xl fixed w-2/3 top-1/2 left-1/2 -translate-1/2 bg-white ">
-        <x-house-form action="{{ route('houses.update', $house) }}" method="PUT" :house="$house" />
+        class="fixed w-full h-full top-0 left-0 flex justify-center items-center">
+        <div class="absolute w-full h-full bg-black opacity-50 -z-10" onmousedown=toggleModal()></div>
+        <div class="w-2/3 h-min bg-white rounded-2xl p-5 shadow-md">
+            <x-house-form action="{{ route('houses.update', $house) }}" method="PUT" :house="$house" />
+        </div>
     </div>
 
     <script>
-        const openModal = () =>
-        {
-            const modal = document.querySelector('#edit-modal');
-            const modalVisibility = document.querySelector('#edit-modal').style.visibility;
-            modal.style.visibility = modalVisibility === "visible" ? "hidden" : "visible";
-        }
+    const toggleModal = () => {
+        const modal = document.querySelector('#edit-modal');
+        const modalVisibility = document.querySelector('#edit-modal').style.visibility;
+        modal.style.visibility = modalVisibility === "visible" ? "hidden" : "visible";
+    }
     </script>
 </section>
