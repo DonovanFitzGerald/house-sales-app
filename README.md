@@ -1,11 +1,11 @@
 # House Sales App
 
-A simple house sales app built with Laravel and Tailwind CSS.
+A simple house CRUD app built with Laravel and Tailwind CSS.
 
 ## Features
 
 - User authentication (login, register, logout)
-- House listing with search and filter
+- House listing with search filtering
 - House details page
 - House creation (admin only)
 - House update (admin only)
@@ -48,7 +48,7 @@ php artisan migrate --seed
 5. Start the development server
 
 ```bash
-php artisan start
+npm run start
 ```
 
 ### Useful Commands
