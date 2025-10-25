@@ -6,10 +6,15 @@
 ])
 
 @php
+
+// Options for selects
 $ratings = ['A1','A2','A3','B1','B2','B3','C1','C2','C3','D1','D2','E1','E2','F','G'];
 $types = ['detatched','semi-detached','terraced','bungalow','apartment','studio'];
-$val = fn($k, $fallback=null) => old($k, $house?->$k ?? $fallback);
 
+// Helper to get old value or house value
+$val = fn($k) => old($k, $house?->$k);
+
+// Get current house image
 $existingImageUrl = null;
 if ($house?->featured_image_url ?? false) {
 $existingImageUrl = $house->featured_image_url;
@@ -26,12 +31,6 @@ $existingImageUrl = asset('images/houses/'.$house->featured_image);
     @endif
 
     <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
-        <div class="md:col-span-2">
-            <label class="block text-sm font-medium text-gray-700">Description</label>
-            <textarea name="description" rows="4"
-                class="mt-1 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm placeholder:text-gray-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-300">{{ $val('description') }}</textarea>
-            @error('description')<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror
-        </div>
 
         <div>
             <label class="block text-sm font-medium text-gray-700">Address line 1</label>
@@ -108,10 +107,17 @@ $existingImageUrl = asset('images/houses/'.$house->featured_image);
                 <option value="" disabled {{ $val('house_type') ? '' : 'selected' }}>Select…</option>
                 @foreach($types as $t)
                 <option value="{{ $t }}" @selected($val('house_type')===$t)>
-                    {{ \Illuminate\Support\Str::headline(str_replace('detatched','detached',$t)) }}</option>
+                    {{ $t }}</option>
                 @endforeach
             </select>
             @error('house_type')<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror
+        </div>
+
+        <div class="md:col-span-2">
+            <label class="block text-sm font-medium text-gray-700">Description</label>
+            <textarea name="description" rows="4"
+                class="mt-1 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm placeholder:text-gray-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-300">{{ $val('description') }}</textarea>
+            @error('description')<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror
         </div>
 
         <div class="md:col-span-2">
@@ -123,13 +129,13 @@ $existingImageUrl = asset('images/houses/'.$house->featured_image);
                         class="h-full w-full object-cover {{ $existingImageUrl ? '' : 'hidden' }}">
                 </div>
 
-                <div class="flex-1">
+                <div class="flex-1 ">
                     <input id="featured_input" type="file" name="featured_image" accept="image/*"
                         class="mt-1 block w-full cursor-pointer rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm file:mr-4 file:rounded-md file:border-0 file:bg-gray-900 file:px-3 file:py-2 file:text-sm file:font-medium file:text-white hover:file:bg-gray-800 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-300">
                     @error('featured_image')<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror
 
                     <button type="button" id="featured_reset"
-                        class="mt-2 inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-1.5 text-xs font-medium text-gray-700 hover:bg-gray-50">
+                        class="cursor-pointer mt-2 inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-1.5 text-xs font-medium text-gray-700 hover:bg-gray-50">
                         Reset image
                     </button>
                 </div>
@@ -149,35 +155,51 @@ $existingImageUrl = asset('images/houses/'.$house->featured_image);
     </div>
 </form>
 
+<!-- Preview script -->
 <script>
+// Wait for DOM to load
 document.addEventListener('DOMContentLoaded', () => {
+    // Get elements
     const input = document.querySelector('#featured_input');
     const img = document.querySelector('#featured_preview');
     const reset = document.querySelector('#featured_reset');
-    const initial = '{{ $existingImageUrl ?? '
-    ' }}';
+    const initial = @json($existingImageUrl ?? '');
 
+    if (!input || !img) return;
+
+    // Set img src
     function showPreview(file) {
         if (!file) return;
         const url = URL.createObjectURL(file);
         img.src = url;
         img.classList.remove('hidden');
+        img.onload = () => URL.revokeObjectURL(url);
     }
 
+    // Listen for file input change
     input.addEventListener('change', (e) => {
-        const [file] = e.target.files || [];
+        const file = e.target.files && e.target.files[0];
         if (file) showPreview(file);
     });
 
+    // Listen for reset button click
     reset.addEventListener('click', () => {
         input.value = '';
         if (initial) {
             img.src = initial;
             img.classList.remove('hidden');
         } else {
-            img.src = '';
+            img.removeAttribute('src');
             img.classList.add('hidden');
         }
     });
+
+    // Show initial image
+    if (initial) {
+        img.src = initial;
+        img.classList.remove('hidden');
+    } else {
+        img.classList.add('hidden');
+    }
 });
 </script>

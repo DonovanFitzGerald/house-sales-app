@@ -17,6 +17,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    // CRUD Routes
     Route::get('/houses/create', [HouseController::class, 'create'])->name('houses.create');
     Route::post('/houses', [HouseController::class, 'store'])->name('houses.store');
     Route::get('/houses/{house}/edit', [HouseController::class, 'edit'])->name('houses.edit');
@@ -24,6 +25,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/houses/{house}', [HouseController::class, 'destroy'])->name('houses.destroy');
 });
 
+// Index and Show Routes
 Route::get('/houses', [HouseController::class, 'index'])->name('houses.index');
 Route::get('/houses/{house}', [HouseController::class, 'show'])->name('houses.show');
 

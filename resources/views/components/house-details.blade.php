@@ -1,6 +1,8 @@
 @props(['house'])
 
 @php
+
+// Expression match BER rating to tailwind styling
 $badgeFor = static function (string $rating): string {
 return match ($rating) {
 'A1', 'A2', 'A3' => 'bg-emerald-100 text-emerald-700 ring-emerald-200',
@@ -13,19 +15,25 @@ default => 'bg-gray-100 text-gray-700 ring-gray-200',
 };
 
 $img = $house->featured_image_url ?? asset('images/houses/' . $house->featured_image);
+
+// Format address
 $address = trim(collect([$house->address_line_1, $house->address_line_2, $house->city, $house->county,
 $house->zip])->filter()->implode(', '));
-$prettyType = \Illuminate\Support\Str::headline(str_replace('detatched', 'detached', $house->house_type));
 @endphp
 
 <section class="mx-auto max-w-7xl px-4 py-6">
+
+    {{-- Breadcrumbs --}}
     <nav class="mb-4 text-sm text-gray-500">
         <a href="{{ route('houses.index') }}" class="hover:text-gray-700">Houses</a>
         <span class="mx-2">/</span>
-        <a href="{{ route('houses.index', ['q' => $prettyType]) }}" class="text-gray-900">{{ $prettyType }}</a>
+        <a href="{{ route('houses.index', ['q' => $house->house_type]) }}"
+            class="text-gray-900">{{ $house->house_type }}</a>
     </nav>
 
     <div class="rounded-2xl border border-gray-200 bg-white shadow-sm">
+
+        {{-- Hero image --}}
         <div class="relative aspect-[16/9] w-full overflow-hidden rounded-t-2xl bg-gray-100">
             <img src="{{ $img }}" alt="{{ $address }}" class="h-full w-full object-cover">
             <div
@@ -36,15 +44,17 @@ $prettyType = \Illuminate\Support\Str::headline(str_replace('detatched', 'detach
                 </span>
                 <span
                     class="inline-flex items-center rounded-full bg-white/95 px-2.5 py-1 text-xs font-medium text-gray-700 ring-1 ring-gray-200">
-                    {{ $prettyType }}
+                    {{ $house->house_type }}
                 </span>
             </div>
         </div>
 
+        {{-- Main content --}}
         <div class="grid grid-cols-1 gap-8 p-6 lg:grid-cols-2 lg:p-8">
             <div class="lg:col-span-2">
                 <h1 class="text-2xl font-semibold text-gray-900">{{ $address }}</h1>
 
+                {{-- Brief details --}}
                 <div class="mt-3 flex flex-wrap items-center gap-4 text-sm text-gray-700">
                     <div class="inline-flex items-center gap-1.5">
                         <svg xmlns="http://www.w3.org/2000/svg" class="size-4" fill="none" viewBox="0 0 24 24"
@@ -71,12 +81,14 @@ $prettyType = \Illuminate\Support\Str::headline(str_replace('detatched', 'detach
                     </div>
                 </div>
 
+                {{-- Overview and details --}}
                 <div class="mt-6 space-y-6">
                     <section>
                         <h2 class="text-base font-semibold text-gray-900">Overview</h2>
                         <p class="mt-2 leading-relaxed text-gray-700">{{ $house->description }}</p>
                     </section>
 
+                    {{-- Address and details --}}
                     <section class="grid grid-cols-1 gap-6 sm:grid-cols-2">
                         <div class="rounded-xl border border-gray-200 p-4">
                             <h3 class="mb-3 text-sm font-semibold uppercase tracking-wide text-gray-500">Address</h3>
@@ -88,13 +100,12 @@ $prettyType = \Illuminate\Support\Str::headline(str_replace('detatched', 'detach
                                 <div>{{ $house->zip }}</div>
                             </div>
                         </div>
-
                         <div class="rounded-2xl border border-gray-200 p-5 shadow-sm">
                             <h3 class="text-base font-semibold text-gray-900">Details</h3>
                             <ul class="mt-4 space-y-3 text-sm text-gray-700">
                                 <li class="flex items-center justify-between">
                                     <span>Property type</span><span
-                                        class="font-medium text-gray-900">{{ $prettyType }}</span>
+                                        class="font-medium text-gray-900">{{ $house -> house_type }}</span>
                                 </li>
                                 <li class="flex items-center justify-between">
                                     <span>Area</span><span
@@ -118,6 +129,8 @@ $prettyType = \Illuminate\Support\Str::headline(str_replace('detatched', 'detach
                             </ul>
                         </div>
                     </section>
+
+                    {{-- Actions --}}
                     <div class="mt-5 grid grid-cols-4 gap-2">
                         <a href="{{ route('houses.index') }}"
                             class="inline-flex flex-1 items-center justify-center rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-300">
@@ -128,6 +141,7 @@ $prettyType = \Illuminate\Support\Str::headline(str_replace('detatched', 'detach
                             Contact
                         </a>
 
+                        {{-- Admin actions --}}
                         @if(auth()->user()->role === 'admin')
                         <button onmousedown=toggleModal()
                             class="inline-flex flex-1 items-center justify-center rounded-lg bg-amber-500 px-4 py-2 text-sm font-medium text-white hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-gray-400 cursor-pointer">
@@ -150,6 +164,7 @@ $prettyType = \Illuminate\Support\Str::headline(str_replace('detatched', 'detach
         </div>
     </div>
 
+    <!-- Edit Modal -->
     <div id="edit-modal" style="visibility: hidden"
         class="fixed w-full h-full top-0 left-0 flex justify-center items-center">
         <div class="absolute w-full h-full bg-black opacity-50 -z-10" onmousedown=toggleModal()></div>
@@ -158,6 +173,7 @@ $prettyType = \Illuminate\Support\Str::headline(str_replace('detatched', 'detach
         </div>
     </div>
 
+    <!-- Modal script -->
     <script>
     const toggleModal = () => {
         const modal = document.querySelector('#edit-modal');

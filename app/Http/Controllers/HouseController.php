@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\House;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class HouseController extends Controller
 {
@@ -13,8 +12,10 @@ class HouseController extends Controller
      */
     public function index(Request $request)
     {
+        // Trim the search term
         $term = trim($request->string('q'));
 
+        // Define the columns to search
         $columns = [
             'description',
             'address_line_1',
@@ -26,18 +27,26 @@ class HouseController extends Controller
             'house_type',
         ];
 
-        $houses = House::query()
-            ->when($term !== '', function ($q) use ($columns, $term) {
-                $q->where(function ($q) use ($columns, $term) {
+        // Get the paginated houses data
+        if ($term !== '') {
+            $houses = House::query()
+                // Loop through the columns and search for the term in each column
+                ->where(function ($q) use ($columns, $term) {
                     foreach ($columns as $col) {
                         $q->orWhere($col, 'like', "%{$term}%");
                     }
-                });
-            })
-            ->latest('created_at')
-            ->paginate(12)
-            ->withQueryString();
+                })
+                ->latest('created_at')
+                ->paginate(12)
+                ->withQueryString();
+        } else {
+            $houses = House::query()
+                ->latest('created_at')
+                ->paginate(12)
+                ->withQueryString();
+        }
 
+        // Return the view with the houses data
         return view('houses.index', compact('houses'));
     }
 
@@ -54,7 +63,7 @@ class HouseController extends Controller
      */
     public function store(Request $request)
     {
-
+        // Validate the input data
         $request->validate([
             'description' => 'required|string',
             'address_line_1' => 'required|string',
@@ -70,11 +79,13 @@ class HouseController extends Controller
             'featured_image' => 'required|image|mimes:jpeg,png,jpg|max:4096',
         ]);
 
+        // Handle the featured image upload
         if ($request->hasFile('featured_image')) {
             $featured_imageName = $request->house_type.'_'.time().'.'.$request->featured_image->extension();
             $request->file('featured_image')->move(public_path('images/houses'), $featured_imageName);
         }
 
+        // Create the house record
         House::create([
             'description' => $request->description,
             'address_line_1' => $request->address_line_1,
@@ -90,6 +101,7 @@ class HouseController extends Controller
             'featured_image' => $featured_imageName,
         ]);
 
+        // Redirect back with a success message
         return to_route('houses.index')->with('success', 'House created successfully.');
     }
 
@@ -114,6 +126,7 @@ class HouseController extends Controller
      */
     public function update(Request $request, House $house)
     {
+        // Validate the input data
         $request->validate([
             'description' => 'required|string',
             'address_line_1' => 'required|string',
@@ -131,11 +144,13 @@ class HouseController extends Controller
 
         $featured_image_path = $house->featured_image;
 
+        // Handle the featured image upload
         if ($request->hasFile('featured_image')) {
-            $featured_image_path = $request->house_type.'_'.time().'.'.$request->featured_image->extension();
+            $featured_image_path = $request->house_type.'_'.time().'.'.$request->featured_image->extension(); // Generate a unique filename
             $request->file('featured_image')->move(public_path('images/houses'), $featured_image_path);
         }
 
+        // Update the house record
         $house->update([
             'description' => $request->description,
             'address_line_1' => $request->address_line_1,
@@ -151,6 +166,7 @@ class HouseController extends Controller
             'featured_image' => $featured_image_path,
         ]);
 
+        // Redirect back with a success message
         return to_route('houses.show', $house->id)->with('success', 'House edited successfully.');
     }
 
@@ -159,8 +175,10 @@ class HouseController extends Controller
      */
     public function destroy(House $house)
     {
+        // Delete the house record
         House::where('id', $house->id)->delete();
 
+        // Redirect back with a success message
         return to_route('houses.index')->with('success', 'House deleted successfully.');
     }
 }
