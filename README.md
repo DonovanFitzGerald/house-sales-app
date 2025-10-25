@@ -1,10 +1,7 @@
 # House Sales App
 
-A house listing management application built with Laravel 12, Blade, Tailwind CSS, Alpine.js, and Breeze. This application provides a platform for browsing, searching, and managing house listings with role-based admin control.
-
-## Overview
-
-This project is a modern Laravel application designed for house listings. It features a responsive design built with Tailwind CSS and powered by Laravel's framework. The application supports two user roles: regular users who can browse and search houses, and administrators who have full CRUD capabilities for managing listings.
+A house listing management app built with Laravel 12, Blade, Tailwind CSS, Alpine.js, and Breeze. This application provides a platform for browsing and managing house listings.
+This project features a responsive design built with Tailwind CSS and powered by Laravel's framework. The application supports two user roles: regular users who can browse and administrators who have full CRUD capabilities for managing listings.
 
 ## Features
 
