@@ -40,7 +40,7 @@ npm install
 php artisan key:generate
 ```
 
-4. Run the database migrations seeds
+4. Run the database migrations and seeds
 
 ```bash
 php artisan migrate --seed
