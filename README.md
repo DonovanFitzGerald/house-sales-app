@@ -8,9 +8,9 @@ A simple house CRUD app built with Laravel and Tailwind CSS.
 - House listing with search filtering
 - House listing pagination
 - House details page
-- House creation (admin only)
-- House update (admin only)
-- House deletion (admin only)
+- House creation **_admin only_**
+- House update **_admin only_**
+- House deletion **_admin only_**
 
 ## Requirements
 
