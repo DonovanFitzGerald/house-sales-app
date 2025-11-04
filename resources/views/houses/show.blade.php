@@ -11,6 +11,21 @@
             </a>
         </div>
 
-        <x-house-details :house="$house" :realtors="$realtors" />
+        <x-house-details :house="$house" />
+
+        <section class="mt-8">
+            <h2 class="mb-4 text-base font-semibold text-gray-900">Listing Realtors</h2>
+            @if($realtors && $realtors->count())
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+
+                @foreach($realtors as $realtor)
+                <x-realtor-card :realtor="$realtor" />
+                @endforeach
+
+            </div>
+            @else
+            <p class="text-sm text-gray-600">No realtors assigned yet.</p>
+            @endif
+        </section>
     </div>
 </x-app-layout>

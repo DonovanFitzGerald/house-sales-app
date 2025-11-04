@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
 use App\Models\House;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -23,10 +22,10 @@ class HouseRealtorSeeder extends Seeder
         $rows = [];
 
         foreach ($houses as $house) {
-            for ($i = 0; $i <= $faker->numberBetween(1,3); $i++) {
+            for ($i = 0; $i <= $faker->numberBetween(1, 3); $i++) {
                 $rows[] = [
-                    "user_id" => $faker->randomElement($realtors)->id,
-                    "house_id" => $house->id
+                    'user_id' => $faker->randomElement($realtors)->id,
+                    'house_id' => $house->id,
                 ];
             }
         }

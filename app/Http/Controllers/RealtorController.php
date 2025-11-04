@@ -12,12 +12,12 @@ class RealtorController extends Controller
      */
     public function index($request)
     {
-         // Trim the search term
+        // Trim the search term
         $term = trim($request->string('q'));
 
         // Define the columns to search
         $columns = [
-            'name'
+            'name',
         ];
 
         // Get the paginated houses data

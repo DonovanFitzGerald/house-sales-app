@@ -4,9 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use \App\Models\User;
-use \App\Models\HouseRealtor;
-
 
 class House extends Model
 {
@@ -30,7 +27,7 @@ class House extends Model
     public function realtors()
     {
         return $this->belongsToMany(User::class, 'house_realtor')
-        ->using(HouseRealtor::class)
-        ->where('users.role', 'realtor');
+            ->using(HouseRealtor::class)
+            ->where('users.role', 'realtor');
     }
 }

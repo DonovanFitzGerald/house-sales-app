@@ -18,7 +18,7 @@ return new class extends Migration
             $table->timestamps();
             $table->foreignIdFor(User::class);
             $table->foreignIdFor(House::class);
-            $table->unique(['house_id','user_id']);
+            $table->unique(['house_id', 'user_id']);
         });
     }
 

@@ -45,7 +45,7 @@ class UserSeeder extends Seeder
 
         for ($i = 0; $i < 200; $i++) {
             $name = $faker->name();
-            $email = strtolower(preg_replace('/\s|\'/','',$name.$faker->numberBetween(1, 1000)."@".$faker->freeEmailDomain()));
+            $email = strtolower(preg_replace('/\s|\'/', '', $name.$faker->numberBetween(1, 1000).'@'.$faker->freeEmailDomain()));
 
             $rows[] = [
                 'name' => $name,
@@ -59,7 +59,7 @@ class UserSeeder extends Seeder
 
         for ($i = 0; $i < 50; $i++) {
             $name = $faker->name();
-            $email = strtolower(preg_replace('/\s|\'/','',$name.$faker->numberBetween(1, 1000)."@".$faker->freeEmailDomain()));
+            $email = strtolower(preg_replace('/\s|\'/', '', $name.$faker->numberBetween(1, 1000).'@'.$faker->freeEmailDomain()));
 
             $rows[] = [
                 'name' => $name,
