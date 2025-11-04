@@ -38,7 +38,7 @@ class HouseSeeder extends Seeder
                 'square_metres' => $faker->numberBetween(35, 300),
                 'energy_rating' => $faker->randomElement($energyRatings),
                 'house_type' => $faker->randomElement($houseTypes),
-                'featured_image' => $faker->randomElement($houseTypes) . "_" . $faker->numberBetween(1, 5) . '.jpg', 
+                'featured_image' => $faker->randomElement($houseTypes).'_'.$faker->numberBetween(1, 5).'.jpg',
                 'created_at' => now(),
                 'updated_at' => now(),
             ];
