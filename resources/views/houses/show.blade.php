@@ -11,6 +11,6 @@
             </a>
         </div>
 
-        <x-house-details :house="$house" />
+        <x-house-details :house="$house" :realtors="$realtors" />
     </div>
 </x-app-layout>

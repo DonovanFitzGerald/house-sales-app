@@ -1,4 +1,4 @@
-@props(['house'])
+@props(['house', 'realtors'])
 
 @php
 
@@ -181,4 +181,44 @@ $house->zip])->filter()->implode(', '));
         modal.style.visibility = modalVisibility === "visible" ? "hidden" : "visible";
     }
     </script>
+</section>
+<section class="mt-8">
+    <h2 class="mb-4 text-base font-semibold text-gray-900">Listing Realtors</h2>
+
+    @if($realtors && $realtors->count())
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        @foreach($realtors as $realtor)
+        <article
+            class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition hover:shadow-md">
+            <div class="relative aspect-[4/3] w-full overflow-hidden bg-gray-100">
+                <img src="{{ asset('images/users/' . ($realtor->featured_image ?? 'placeholder.jpg')) }}"
+                    alt="Portrait of {{ $realtor->name }}"
+                    class="h-full w-full object-cover transition duration-300 hover:scale-[1.02]" />
+            </div>
+
+            <div class="p-4">
+                <h3 class="truncate text-sm font-semibold text-gray-900" title="{{ $realtor->name }}">
+                    {{ $realtor->name }}
+                </h3>
+
+                <p class="mt-1 truncate text-sm text-gray-600" title="{{ $realtor->email }}">
+                    <a href="mailto:{{ $realtor->email }}"
+                        class="text-indigo-600 hover:text-indigo-700 hover:underline">
+                        {{ $realtor->email }}
+                    </a>
+                </p>
+
+                @if(!is_null(optional($realtor->pivot)->commission_rate))
+                <p class="mt-3 text-xs text-gray-500">
+                    Commission: <span
+                        class="font-medium text-gray-900">{{ number_format($realtor->pivot->commission_rate, 2) }}%</span>
+                </p>
+                @endif
+            </div>
+        </article>
+        @endforeach
+    </div>
+    @else
+    <p class="text-sm text-gray-600">No realtors assigned yet.</p>
+    @endif
 </section>
