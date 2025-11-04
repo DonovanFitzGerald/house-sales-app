@@ -13,11 +13,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('realtors_houses', function (Blueprint $table) {
+        Schema::create('house_realtor', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
             $table->foreignIdFor(User::class);
             $table->foreignIdFor(House::class);
+            $table->unique(['house_id','user_id']);
         });
     }
 
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('realtors_houses');
+        Schema::dropIfExists('house_realtor');
     }
 };
