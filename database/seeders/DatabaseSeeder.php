@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call(HouseSeeder::class);
         $this->call(UserSeeder::class);
+        $this->call(HouseRealtorSeeder::class);
 
         User::factory()->create([
             'name' => 'Test User',
