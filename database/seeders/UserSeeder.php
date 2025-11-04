@@ -49,7 +49,7 @@ class UserSeeder extends Seeder
                 'email' => $email,
                 'password' => Hash::make('password'),
                 'role' => 'user',
-                'featured_image' => 'person_'.$faker->numberBetween(1, 10).'jpg',
+                'featured_image' => 'person_'.$faker->numberBetween(1, 10).'.jpg',
             ];
         }
 
@@ -62,7 +62,7 @@ class UserSeeder extends Seeder
                 'email' => $email,
                 'password' => Hash::make('password'),
                 'role' => 'realtor',
-                'featured_image' => 'person_'.$faker->numberBetween(1, 10).'jpg',
+                'featured_image' => 'person_'.$faker->numberBetween(1, 10).'.jpg',
             ];
         }
 
