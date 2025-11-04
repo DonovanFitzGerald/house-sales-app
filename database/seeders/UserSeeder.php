@@ -29,11 +29,18 @@ class UserSeeder extends Seeder
                 'role' => 'user',
                 'featured_image' => 'placeholder.jpg',
             ],
+            [
+                'name' => 'Donovan Realtor',
+                'email' => 'donovan.fitzg@realtor.com',
+                'password' => Hash::make('password'),
+                'role' => 'user',
+                'featured_image' => 'placeholder.jpg',
+            ],
         ];
 
         $faker = fake();
 
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 200; $i++) {
             $name = $faker->name();
             $email = $name.$faker->numberBetween(1, 1000).$faker->safeEmailDomain();
 
@@ -46,7 +53,7 @@ class UserSeeder extends Seeder
             ];
         }
 
-        for ($i = 0; $i < 5; $i++) {
+        for ($i = 0; $i < 50; $i++) {
             $name = $faker->name();
             $email = $name.$faker->numberBetween(1, 1000).$faker->safeEmailDomain();
 
