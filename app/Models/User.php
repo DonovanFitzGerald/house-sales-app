@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+use \App\Models\House;
+use \App\Models\HouseRealtor;
+
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
@@ -46,5 +49,22 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function houses()
+    {
+        return $this->belongsToMany(House::class, 'house_user')
+            ->using(HouseRealtor::class)
+            ->where('users.role', 'realtor');
+    }
+
+     public function realtors()
+    {
+        return $this->where('users.role', 'realtor');
+    }
+
+     public function users()
+    {
+        return $this->where('users.role', 'users');
     }
 }
