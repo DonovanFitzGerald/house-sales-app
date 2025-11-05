@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Realtor;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class RealtorController extends Controller
@@ -12,35 +12,7 @@ class RealtorController extends Controller
      */
     public function index($request)
     {
-        // Trim the search term
-        $term = trim($request->string('q'));
-
-        // Define the columns to search
-        $columns = [
-            'name',
-        ];
-
-        // Get the paginated houses data
-        if ($term !== '') {
-            $houses = House::query()
-                // Loop through the columns and search for the term in each column
-                ->where(function ($q) use ($columns, $term) {
-                    foreach ($columns as $col) {
-                        $q->orWhere($col, 'like', "%{$term}%");
-                    }
-                })
-                ->latest('created_at')
-                ->paginate(12)
-                ->withQueryString();
-        } else {
-            $houses = House::query()
-                ->latest('created_at')
-                ->paginate(12)
-                ->withQueryString();
-        }
-
-        // Return the view with the houses data
-        return view('houses.index', compact('houses'));
+        //
     }
 
     /**
@@ -62,15 +34,17 @@ class RealtorController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Realtor $realtor)
+    public function show(User $realtor)
     {
-        //
+        $houses = $realtor->houses();
+        
+        return view('realtors.show')->with('realtor', $realtor)->with('houses', $houses);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Realtor $realtor)
+    public function edit(User $realtor)
     {
         //
     }
@@ -78,7 +52,7 @@ class RealtorController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Realtor $realtor)
+    public function update(Request $request, User $realtor)
     {
         //
     }
@@ -86,7 +60,7 @@ class RealtorController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Realtor $realtor)
+    public function destroy(User $realtor)
     {
         //
     }

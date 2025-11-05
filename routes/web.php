@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\HouseController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RealtorController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -25,8 +26,13 @@ Route::middleware('auth')->group(function () {
     Route::delete('/houses/{house}', [HouseController::class, 'destroy'])->name('houses.destroy');
 });
 
-// Index and Show Routes
+
+// Houses
 Route::get('/houses', [HouseController::class, 'index'])->name('houses.index');
 Route::get('/houses/{house}', [HouseController::class, 'show'])->name('houses.show');
+
+// Realtors
+Route::get('/realtors', [RealtorController::class, 'index'])->name('realtors.index');
+Route::get('/realtors/{realtor}', [RealtorController::class, 'show'])->name('realtors.show');
 
 require __DIR__.'/auth.php';

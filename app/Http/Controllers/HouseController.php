@@ -110,7 +110,7 @@ class HouseController extends Controller
      */
     public function show(House $house)
     {
-        $realtors = $house->realtors()->get();
+        $realtors = $house->realtors();
 
         return view('houses.show')->with('house', $house)->with('realtors', $realtors);
     }
