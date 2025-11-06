@@ -26,7 +26,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/houses/{house}', [HouseController::class, 'destroy'])->name('houses.destroy');
 });
 
-
 // Houses
 Route::get('/houses', [HouseController::class, 'index'])->name('houses.index');
 Route::get('/houses/{house}', [HouseController::class, 'show'])->name('houses.show');
