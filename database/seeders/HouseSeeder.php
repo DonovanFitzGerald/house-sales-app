@@ -26,6 +26,10 @@ class HouseSeeder extends Seeder
 
         $rows = [];
         for ($i = 0; $i < 300; $i++) {
+            $beds = $faker->numberBetween(1, 6);
+            $baths = floor($beds / 2);
+            $square_metres = $beds * $faker->numberBetween(30, 80);
+
             $rows[] = [
                 'description' => $faker->paragraphs(2, true),
                 'address_line_1' => $faker->buildingNumber().' '.$faker->streetName(),
@@ -33,9 +37,9 @@ class HouseSeeder extends Seeder
                 'city' => $faker->city(),
                 'county' => $faker->randomElement($counties),
                 'zip' => $faker->postcode(),
-                'beds' => $faker->numberBetween(1, 6),
-                'baths' => $faker->numberBetween(1, 4),
-                'square_metres' => $faker->numberBetween(35, 300),
+                'beds' => $beds,
+                'baths' => $baths,
+                'square_metres' => $square_metres,
                 'energy_rating' => $faker->randomElement($energyRatings),
                 'house_type' => $faker->randomElement($houseTypes),
                 'featured_image' => $faker->randomElement($houseTypes).'_'.$faker->numberBetween(1, 5).'.jpg',
