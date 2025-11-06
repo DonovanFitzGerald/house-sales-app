@@ -28,8 +28,7 @@ class House extends Model
     {
         return $this->belongsToMany(User::class, 'house_realtor')
             ->using(HouseRealtor::class)
-            ->where('users.role', 'realtor')
-            ->get();
+            ->where('users.role', 'realtor');
     }
 
     public function bids()
