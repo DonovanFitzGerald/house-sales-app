@@ -26,11 +26,11 @@ class BidSeeder extends Seeder
             $topBid = $house->beds * $faker->numberBetween(100000, 150000);
 
             for ($i = 0; $i <= $faker->numberBetween(1, 20); $i++) {
-                $newBid = $topBid * ($faker->numberBetween(105, 120) / 100);
+                $topBid = $topBid * ($faker->numberBetween(105, 120) / 100);
                 $rows[] = [
                     'user_id' => $faker->randomElement($users)->id,
                     'house_id' => $house->id,
-                    'value' => $newBid,
+                    'value' => $topBid,
                 ];
             }
         }
