@@ -14,7 +14,7 @@ default => 'bg-gray-100 text-gray-700 ring-gray-200',
 
 @props(['house'])
 
-<div class="w-full p-2">
+<div class="w-full">
     <a href="{{ route('houses.show', $house) }}" class="group block focus:outline-none">
         <article class="flex h-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition
              hover:-translate-y-0.5 hover:shadow-md focus-within:ring-2 focus-within:ring-indigo-500">
