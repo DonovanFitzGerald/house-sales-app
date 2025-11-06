@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Bids;
+use App\Models\Bid;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -35,7 +35,7 @@ class BidController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Bids $bids)
+    public function show(Bid $bid)
     {
         //
     }
@@ -43,7 +43,7 @@ class BidController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Bids $bids)
+    public function edit(Bid $bid)
     {
         //
     }
@@ -51,7 +51,7 @@ class BidController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Bids $bids)
+    public function update(Request $request, Bid $bid)
     {
         //
     }
@@ -59,7 +59,7 @@ class BidController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Bids $bids)
+    public function destroy(Bid $bid)
     {
         //
     }
