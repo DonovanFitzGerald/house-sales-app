@@ -31,4 +31,9 @@ class House extends Model
             ->where('users.role', 'realtor')
             ->get();
     }
+
+    public function bids()
+    {
+        return $this->hasMany(Bid::class);
+    }
 }
