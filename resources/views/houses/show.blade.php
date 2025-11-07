@@ -1,3 +1,7 @@
+@php
+$topBid = $bids[0]
+@endphp
+
 <x-app-layout>
     <div class="mx-auto max-w-6xl px-4 py-6">
         <div class="mb-4 flex items-center gap-3">
@@ -11,7 +15,7 @@
             </a>
         </div>
 
-        <x-house-details :house="$house" />
+        <x-house-details :house="$house" :topBid="$topBid" />
 
         <section class="mt-8">
             <h2 class="mb-4 text-base font-semibold text-gray-900">Listing Realtors</h2>
