@@ -35,4 +35,9 @@ class House extends Model
     {
         return $this->hasMany(Bid::class)->orderBy('value','desc');
     }
+
+    public function topBid()
+    {
+        return $this->hasOne(Bid::class)->ofMany('value', 'max');
+    }
 }

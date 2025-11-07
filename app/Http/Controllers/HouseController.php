@@ -112,6 +112,8 @@ class HouseController extends Controller
     {
         $realtors = $house->realtors()->get();
         $bids = $house->bids()->with('user')->get();
+        $topBid = $house->topBid()->with('user')->get();
+        dd($topBid);
 
         return view('houses.show')->with('house', $house)->with('realtors', $realtors)->with('bids', $bids);
     }
