@@ -38,7 +38,7 @@ class UserSeeder extends Seeder
                 'phone_number' => $faker->phoneNumber(),
                 'email' => 'donovan.fitzg@realtor.com',
                 'password' => Hash::make('password'),
-                'role' => 'user',
+                'role' => 'realtor',
                 'featured_image' => 'placeholder.jpg',
             ],
         ];
