@@ -1,8 +1,8 @@
 @props(['realtor'])
 
 @php
-$avatar = $realtor->featured_image_url
-?? asset('images/users/' . ($realtor->featured_image ?: 'default.jpg'));
+    $avatar = $realtor->featured_image_url
+        ?? asset('images/users/' . ($realtor->featured_image ?: 'default.jpg'));
 @endphp
 
 <section class="">
@@ -52,10 +52,10 @@ $avatar = $realtor->featured_image_url
 
             {{-- Optional bio --}}
             @if(!empty($realtor->bio ?? null))
-            <div class="mt-6">
-                <h2 class="text-base font-semibold text-gray-900">About {{ $realtor->name }}</h2>
-                <p class="mt-2 leading-relaxed text-gray-700">{{ $realtor->bio }}</p>
-            </div>
+                <div class="mt-6">
+                    <h2 class="text-base font-semibold text-gray-900">About {{ $realtor->name }}</h2>
+                    <p class="mt-2 leading-relaxed text-gray-700">{{ $realtor->bio }}</p>
+                </div>
             @endif
 
             {{-- Actions --}}
