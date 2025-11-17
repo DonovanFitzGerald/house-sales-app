@@ -10,9 +10,40 @@ class RealtorController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index($request)
+    public function index(Request $request)
     {
-        //
+        // Trim the search term
+        $term = trim($request->string('q'));
+
+        // Define the columns to search
+        $columns = [
+            'name',
+            'email',
+        ];
+
+        // Get the paginated houses data
+        if ($term !== '') {
+            $realtors = User::query()
+                // Loop through the columns and search for the term in each column
+                ->where('role', 'realtor')
+                ->where(function ($q) use ($columns, $term) {
+                    foreach ($columns as $col) {
+                        $q->orWhere($col, 'like', "%{$term}%");
+                    }
+                })
+                ->latest('created_at')
+                ->paginate(12)
+                ->withQueryString();
+        } else {
+            $realtors = User::query()
+                ->where('role', 'realtor')
+                ->latest('created_at')
+                ->paginate(12)
+                ->withQueryString();
+        }
+
+        // Return the view with the realtors data
+        return view('realtors.index', compact('realtors'));
     }
 
     /**
