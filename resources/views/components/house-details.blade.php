@@ -177,7 +177,7 @@
                     {{-- Admin actions --}}
                     @if(Auth::user()->role == 'admin' || in_array(Auth::user()->id, $house->realtors->pluck('id')->all()))
                         <button type="button" onmousedown="openEditDialog()"
-                            class="inline-flex items-center justify-center rounded-lg bg-amber-500 px-4 py-2 text-sm font-medium text-white hover:bg-amber-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300">
+                            class="cursor-pointer inline-flex items-center justify-center rounded-lg bg-amber-500 px-4 py-2 text-sm font-medium text-white hover:bg-amber-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300">
                             Edit
                         </button>
                         <form action="{{ route('houses.destroy', $house) }}" method="POST" class="w-full"
@@ -185,7 +185,7 @@
                             @csrf
                             @method('DELETE')
                             <button type="submit"
-                                class="inline-flex w-full items-center justify-center rounded-lg bg-red-700 px-4 py-2 text-sm font-medium text-white hover:bg-red-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-300">
+                                class="cursor-pointer inline-flex w-full items-center justify-center rounded-lg bg-red-700 px-4 py-2 text-sm font-medium text-white hover:bg-red-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-300">
                                 Delete
                             </button>
                         </form>
