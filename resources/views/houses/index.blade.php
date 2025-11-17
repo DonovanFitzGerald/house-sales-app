@@ -14,27 +14,27 @@
         </div>
 
         @if (method_exists($houses, 'links'))
-        <div class="my-6">
-            {{ $houses->withQueryString()->links() }}
-        </div>
+            <div class="my-6">
+                {{ $houses->withQueryString()->links() }}
+            </div>
         @endif
 
         @if ($houses->count() === 0)
-        <div class="rounded-2xl border border-gray-200 bg-white p-8 text-center text-gray-500">
-            No houses found.
-        </div>
+            <div class="rounded-2xl border border-gray-200 bg-white p-8 text-center text-gray-500">
+                No houses found.
+            </div>
         @else
-        <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            @foreach ($houses as $house)
-            <x-house-card :house="$house" />
-            @endforeach
-        </div>
+            <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+                @foreach ($houses as $house)
+                    <x-house-card :house="$house" />
+                @endforeach
+            </div>
 
-        @if (method_exists($houses, 'links'))
-        <div class="mt-6">
-            {{ $houses->withQueryString()->links() }}
-        </div>
-        @endif
+            @if (method_exists($houses, 'links'))
+                <div class="mt-6">
+                    {{ $houses->withQueryString()->links() }}
+                </div>
+            @endif
         @endif
     </div>
 </x-app-layout>

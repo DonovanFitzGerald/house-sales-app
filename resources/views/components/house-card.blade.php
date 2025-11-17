@@ -1,18 +1,26 @@
-@php
-// Expression match BER rating to tailwind styling
-$berBadge = function (string $rating): string {
-return match ($rating) {
-'A1', 'A2', 'A3' => 'bg-emerald-100 text-emerald-700 ring-emerald-200',
-'B1', 'B2', 'B3' => 'bg-lime-100 text-lime-700 ring-lime-200',
-'C1', 'C2', 'C3' => 'bg-yellow-100 text-yellow-700 ring-yellow-200',
-'D1', 'D2' => 'bg-amber-100 text-amber-700 ring-amber-200',
-'E1', 'E2', 'F', 'G' => 'bg-red-100 text-red-700 ring-red-200',
-default => 'bg-gray-100 text-gray-700 ring-gray-200',
-};
-};
-@endphp
-
 @props(['house'])
+
+@php
+    // Expression match BER rating to tailwind styling
+    $berBadge = function (string $rating) {
+        return match ($rating) {
+            'A1', 'A2', 'A3' => 'bg-emerald-100 text-emerald-700 ring-emerald-200',
+            'B1', 'B2', 'B3' => 'bg-lime-100 text-lime-700 ring-lime-200',
+            'C1', 'C2', 'C3' => 'bg-yellow-100 text-yellow-700 ring-yellow-200',
+            'D1', 'D2' => 'bg-amber-100 text-amber-700 ring-amber-200',
+            'E1', 'E2', 'F', 'G' => 'bg-red-100 text-red-700 ring-red-200',
+            default => 'bg-gray-100 text-gray-700 ring-gray-200',
+        };
+    };
+
+    $adminActions = false;
+    if (Auth::user()->role == 'admin') {
+        $adminActions = true;
+    }
+    else {
+        $adminActions = in_array(Auth::user()->id, $house->realtors->pluck('id')->all());
+    }
+@endphp
 
 <div class="w-full">
     <a href="{{ route('houses.show', $house) }}" class="group block focus:outline-none">
@@ -108,22 +116,22 @@ default => 'bg-gray-100 text-gray-700 ring-gray-200',
     </a>
 
     {{-- Admin actions --}}
-    @if(auth()->user()->role === 'admin')
-    <div class="mt-4 flex space-x-2">
-        <a href="{{ route('houses.edit', $house) }}"
-            class="text-white bg-orange-500 hover:bg-orange-700 font-bold py-2 px-4 rounded">
-            Edit
-        </a>
-        <form action="{{ route('houses.destroy', $house) }}" method="POST"
-            onsubmit="return confirm('Are you sure you want to delete this house?');">
-            @csrf
-            @method('DELETE')
-            <button type="submit"
-                class="bg-red-500 cursor-pointer hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                Delete
-            </button>
-        </form>
-    </div>
+    @if($adminActions)
+        <div class="mt-4 flex space-x-2">
+            <a href="{{ route('houses.edit', $house) }}"
+                class="text-white bg-orange-500 hover:bg-orange-700 font-bold py-2 px-4 rounded">
+                Edit
+            </a>
+            <form action="{{ route('houses.destroy', $house) }}" method="POST"
+                onsubmit="return confirm('Are you sure you want to delete this house?');">
+                @csrf
+                @method('DELETE')
+                <button type="submit"
+                    class="bg-red-500 cursor-pointer hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                    Delete
+                </button>
+            </form>
+        </div>
     @endif
 
 </div>
