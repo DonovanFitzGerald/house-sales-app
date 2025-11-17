@@ -12,14 +12,6 @@
             default => 'bg-gray-100 text-gray-700 ring-gray-200',
         };
     };
-
-    $adminActions = false;
-    if (Auth::user()->role == 'admin') {
-        $adminActions = true;
-    }
-    else {
-        $adminActions = in_array(Auth::user()->id, $house->realtors->pluck('id')->all());
-    }
 @endphp
 
 <div class="w-full">
@@ -116,7 +108,7 @@
     </a>
 
     {{-- Admin actions --}}
-    @if($adminActions)
+    @if(in_array(Auth::user()->id, $house->realtors->pluck('id')->all()) || Auth::user()->role == 'admin')
         <div class="mt-4 flex space-x-2">
             <a href="{{ route('houses.edit', $house) }}"
                 class="text-white bg-orange-500 hover:bg-orange-700 font-bold py-2 px-4 rounded">
