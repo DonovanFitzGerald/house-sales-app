@@ -36,7 +36,7 @@ class RealtorController extends Controller
      */
     public function show(User $realtor)
     {
-        $houses = $realtor->houses()->get();
+        $houses = $realtor->houses;
 
         return view('realtors.show')->with('realtor', $realtor)->with('houses', $houses);
     }

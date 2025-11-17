@@ -1,6 +1,6 @@
 @php
     $realtor = Auth::user();
-    $houses = $realtor->houses()->get();
+    $houses = $realtor->houses;
 @endphp
 <div class="flex flex-col gap-4">
     <div class="rounded-2xl border border-gray-200 bg-white shadow-sm px-6 py-4">
