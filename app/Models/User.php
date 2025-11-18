@@ -50,8 +50,7 @@ class User extends Authenticatable
 
     public function houses()
     {
-        return $this->belongsToMany(House::class, 'house_realtor')
-            ->using(HouseRealtor::class);
+        return $this->belongsToMany(House::class);
     }
 
     public function realtors()
