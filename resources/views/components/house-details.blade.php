@@ -194,26 +194,33 @@
             </div>
 
             {{-- Right: Top bid card --}}
-            <div class="rounded-xl border border-gray-200 p-5 shadow-sm h-fit">
-                <h2 id="top-bid-title" class="text-base font-semibold text-gray-900">Top bid</h2>
+            <div class="flex flex-col gap-6">
+                <div class="rounded-xl border border-gray-200 p-5 h-fit">
+                    <h2 id="top-bid-title" class="text-base font-semibold text-gray-900">Top bid</h2>
 
-                @if($topBid)
-                    <dl class="mt-4 grid grid-cols-1 gap-3 ">
-                        <p class="mt-1 font-semibold text-gray-900">€{{ number_format($topBid->value, 0) }}</p>
-                    </dl>
+                    @if($topBid)
+                        <dl class="mt-4 grid grid-cols-1 gap-3 ">
+                            <p class="mt-1 font-semibold text-gray-900">€{{ number_format($topBid->value, 0) }}</p>
+                        </dl>
 
-                    <div class="mt-4 flex items-center gap-3">
-                        <img src="{{ $avatar }}" alt="{{ $bidder?->name ? 'Avatar of ' . $bidder->name : 'Bidder avatar' }}"
-                            class="h-10 w-10 rounded-full object-cover ring-1 ring-gray-200" loading="lazy">
-                        <div class="min-w-0">
-                            <p class="truncate text-sm font-medium text-gray-900">
-                                {{ $bidder?->name ?? 'Anonymous bidder' }}
-                            </p>
+                        <div class="mt-4 flex items-center gap-3">
+                            <img src="{{ $avatar }}"
+                                alt="{{ $bidder?->name ? 'Avatar of ' . $bidder->name : 'Bidder avatar' }}"
+                                class="h-10 w-10 rounded-full object-cover ring-1 ring-gray-200" loading="lazy">
+                            <div class="min-w-0">
+                                <p class="truncate text-sm font-medium text-gray-900">
+                                    {{ $bidder?->name ?? 'Anonymous bidder' }}
+                                </p>
+                            </div>
                         </div>
-                    </div>
-                @else
-                    <p class="mt-4 text-sm text-gray-600">No bids yet.</p>
-                @endif
+                    @else
+                        <p class="mt-4 text-sm text-gray-600">No bids yet.</p>
+                    @endif
+                </div>
+                <a href="{{ route('bids.create', $house) }}"
+                    class="bg-gray-900 text-white hover:bg-gray-800 w-full text-md font-medium border  flex items-center justify-center rounded-lg px-4 py-2">
+                    <p>Place a bid</p>
+                </a>
             </div>
         </div>
     </div>
