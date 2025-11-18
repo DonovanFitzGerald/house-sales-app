@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use App\Models\User;
+use App\Models\House;
 
 class HouseSeeder extends Seeder
 {
@@ -24,13 +26,12 @@ class HouseSeeder extends Seeder
         $energyRatings = ['A1', 'A2', 'A3', 'B1', 'B2', 'B3', 'C1', 'C2', 'C3', 'D1', 'D2', 'E1', 'E2', 'F', 'G'];
         $houseTypes = ['detached', 'semi-detached', 'terraced', 'bungalow', 'apartment'];
 
-        $rows = [];
         for ($i = 0; $i < 300; $i++) {
             $beds = $faker->numberBetween(1, 6);
             $baths = floor($beds / 2);
             $square_metres = $beds * $faker->numberBetween(30, 80);
 
-            $rows[] = [
+            $house = [
                 'description' => $faker->paragraphs(2, true),
                 'address_line_1' => $faker->buildingNumber().' '.$faker->streetName(),
                 'address_line_2' => $faker->secondaryAddress(),
@@ -46,8 +47,13 @@ class HouseSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ];
+
+            $house = House::create($house);
+
+            $houseRealtors = User::inRandomOrder()->where('role', 'realtor')->take($faker->numberBetween(1,5))->pluck('id');
+
+            $house->realtors()->attach($houseRealtors);
         }
 
-        DB::table('houses')->insert($rows);
     }
 }

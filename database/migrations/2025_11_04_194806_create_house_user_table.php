@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('house_realtor', function (Blueprint $table) {
+        Schema::create('house_user', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
             $table->foreignIdFor(User::class)->onDelete('cascade');
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('house_realtor');
+        Schema::dropIfExists('house_user');
     }
 };
