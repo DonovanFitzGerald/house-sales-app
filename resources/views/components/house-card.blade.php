@@ -40,6 +40,11 @@
                     class="absolute left-2 top-2 rounded-full px-2.5 py-1 text-xs font-medium ring-1 ring-inset {{ $berBadge($house->energy_rating) }}">
                     {{ $house->energy_rating }}
                 </span>
+
+                {{-- Price badge --}}
+                <span class="absolute right-2 top-2 rounded-full px-2.5 py-1 text-md font-medium  bg-white">
+                    €{{ $house->bids_max_value }}
+                </span>
             </div>
 
             {{-- Body --}}

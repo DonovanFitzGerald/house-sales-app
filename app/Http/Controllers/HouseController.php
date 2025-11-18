@@ -37,11 +37,13 @@ class HouseController extends Controller
                     }
                 })
                 ->latest('created_at')
+                ->withMax('bids', 'value') 
                 ->paginate(12)
                 ->withQueryString();
         } else {
             $houses = House::query()
                 ->latest('created_at')
+                ->withMax('bids', 'value') 
                 ->paginate(12)
                 ->withQueryString();
         }
@@ -111,7 +113,7 @@ class HouseController extends Controller
     public function show(House $house)
     {
         $realtors = $house->realtors;
-        $bids = $house->bids()->with('user')->get();
+        $bids = $house->bids;
 
         return view('houses.show')->with('house', $house)->with('realtors', $realtors)->with('bids', $bids);
     }
