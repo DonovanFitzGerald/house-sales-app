@@ -111,7 +111,7 @@
     @if(in_array(Auth::user()->id, $house->realtors->pluck('id')->all()) || Auth::user()->role == 'admin')
         <div class="mt-4 flex space-x-2">
             <a href="{{ route('houses.edit', $house) }}"
-                class="text-white bg-orange-500 hover:bg-orange-700 font-bold py-2 px-4 rounded">
+                class="text-white bg-orange-500 hover:bg-orange-700 font-bold py-2 px-4 rounded-lg">
                 Edit
             </a>
             <form action="{{ route('houses.destroy', $house) }}" method="POST"
@@ -119,7 +119,7 @@
                 @csrf
                 @method('DELETE')
                 <button type="submit"
-                    class="bg-red-500 cursor-pointer hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                    class="bg-red-500 cursor-pointer hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg">
                     Delete
                 </button>
             </form>

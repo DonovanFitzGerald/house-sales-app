@@ -55,7 +55,7 @@
         @if(Auth::user()->role == 'admin')
             <div class=" flex space-x-2">
                 <a href="{{ route('bids.edit', $bid) }}"
-                    class="text-white bg-orange-500 hover:bg-orange-700 font-bold h-full px-4 rounded text-center flex items-center">
+                    class="text-white bg-orange-500 hover:bg-orange-700 font-bold h-full px-4 rounded-lg text-center flex items-center">
                     <p>Edit</p>
                 </a>
                 <form action="{{ route('bids.destroy', $bid) }}" method="POST"
@@ -63,7 +63,7 @@
                     @csrf
                     @method('DELETE')
                     <button type="submit"
-                        class="bg-red-500 cursor-pointer hover:bg-red-700 text-white font-bold h-full px-4 rounded">
+                        class="bg-red-500 cursor-pointer hover:bg-red-700 text-white font-bold h-full px-4 rounded-lg">
                         Delete
                     </button>
                 </form>
