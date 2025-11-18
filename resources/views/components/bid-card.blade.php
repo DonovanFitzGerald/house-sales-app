@@ -51,6 +51,7 @@
 
     {{-- Footer (optional actions) --}}
     <div class="flex justify-between gap-2 border-t border-gray-100 px-4 py-3">
+        {{-- Admin actions --}}
         @if(Auth::user()->role == 'admin')
             <div class=" flex space-x-2">
                 <a href="{{ route('bids.edit', $bid) }}"
@@ -76,4 +77,3 @@
         @endif
     </div>
 </article>
-{{-- Admin actions --}}
