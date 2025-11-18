@@ -61,12 +61,6 @@
                     class="inline-flex items-center rounded-full bg-white/95 px-2.5 py-1 text-xs font-medium text-gray-700 ring-1 ring-gray-200">
                     {{ $house->house_type }}
                 </span>
-                @if($topBid)
-                    <span
-                        class="ml-auto inline-flex items-center rounded-full bg-white/95 px-3 py-1 text-xs font-semibold text-gray-900 ring-1 ring-gray-200">
-                        Top bid: €{{ number_format($topBid->value, 0) }}
-                    </span>
-                @endif
             </div>
         </div>
 
