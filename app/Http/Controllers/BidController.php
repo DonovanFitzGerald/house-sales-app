@@ -60,6 +60,9 @@ class BidController extends Controller
      */
     public function destroy(Bid $bid)
     {
-        //
+        Bid::where('id', $bid->id)->delete();
+
+        // Redirect back with a success message
+        return to_route('bids.index')->with('success', 'Bid deleted successfully.');
     }
 }
