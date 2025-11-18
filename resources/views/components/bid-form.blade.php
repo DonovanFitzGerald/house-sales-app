@@ -1,15 +1,14 @@
 @props([
-'action' => '#',
-'method' => 'POST',
-'house' => null,
-'submitLabel' => 'Save',
+    'action' => '#',
+    'method' => 'POST',
+    'house' => null,
+    'submitLabel' => 'Save',
 ])
-
 <form action="{{ $action }}" method="POST" enctype="multipart/form-data"
     {{ $attributes->merge(['class' => 'space-y-6']) }}>
     @csrf
     @if($method === 'PUT' || $method === 'PATCH')
-    @method($method)
+        @method($method)
     @endif
 
     <div>

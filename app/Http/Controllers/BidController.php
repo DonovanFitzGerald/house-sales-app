@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bid;
+use App\Models\House;
 use Illuminate\Http\Request;
 
 class BidController extends Controller
@@ -18,9 +19,9 @@ class BidController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(House $house)
     {
-        //
+        return view('bid.create')->with('house', $house);
     }
 
     /**
