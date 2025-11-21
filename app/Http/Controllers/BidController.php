@@ -45,7 +45,7 @@ class BidController extends Controller
      */
     public function edit(Bid $bid)
     {
-        //
+        return view('bids.edit')->with('bid', $bid);
     }
 
     /**
@@ -53,7 +53,18 @@ class BidController extends Controller
      */
     public function update(Request $request, Bid $bid)
     {
-        //
+         // Validate the input data
+        $validated = $request->validate([
+            'value' => 'required|integer',
+        ]);
+
+        // Update the bid record
+        $bid->update($validated);
+
+        $house = $bid->house;
+
+        // Redirect back with a success message
+        return to_route('houses.show', $house)->with('success', 'Bid edited successfully.');
     }
 
     /**
