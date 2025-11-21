@@ -64,6 +64,6 @@ class BidController extends Controller
         Bid::where('id', $bid->id)->delete();
 
         // Redirect back with a success message
-        return to_route('bids.index')->with('success', 'Bid deleted successfully.');
+        return back()->with('success', 'Bid deleted successfully.');
     }
 }
