@@ -4,61 +4,58 @@
 // BER badge → Tailwind styles
 $berBadge = function (string $rating) {
 return match ($rating) {
-'A1', 'A2', 'A3' => 'bg-emerald-100 text-emerald-700 ring-emerald-200',
-'B1', 'B2', 'B3' => 'bg-lime-100 text-lime-700 ring-lime-200',
-'C1', 'C2', 'C3' => 'bg-yellow-100 text-yellow-700 ring-yellow-200',
-'D1', 'D2' => 'bg-amber-100 text-amber-700 ring-amber-200',
-'E1', 'E2', 'F', 'G' => 'bg-red-100 text-red-700 ring-red-200',
-default => 'bg-gray-100 text-gray-700 ring-gray-200',
+'A1','A2','A3' => 'bg-emerald-100 text-emerald-700 ring-emerald-200',
+'B1','B2','B3' => 'bg-lime-100 text-lime-700 ring-lime-200',
+'C1','C2','C3' => 'bg-yellow-100 text-yellow-700 ring-yellow-200 ',
+'D1','D2' => 'bg-amber-100 text-amber-700 ring-amber-200 ',
+'E1','E2','F','G' => 'bg-red-100 text-red-700 ring-red-200 ',
+default => 'bg-gray-100 text-gray-700 ring-gray-200 ',
 };
 };
 
 $image = $house->featured_image_url ?? asset('images/houses/' . $house->featured_image);
-$topBidValue = $house->bids_max_value ?? null;
-
+$topBidValue = $house->bids_max_value;
 $user = auth()->user();
 @endphp
 
 <div class="w-full">
     <a href="{{ route('houses.show', $house) }}" class="group block focus:outline-none">
         <article
-            class="flex h-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md focus-within:ring-2 focus-within:ring-indigo-500">
+            class="flex h-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-gray-700 dark:bg-gray-900">
 
             {{-- Image / badges --}}
             <div class="relative">
-                <div class=" group-hover:scale-[1.02] transition duration-300">
-                    <img src=" {{ $image }}" alt="Photo of {{ $house->address_line_1 }}, {{ $house->city }}"
-                        class="aspect-[4/3] w-full object-cover " />
+                <div class="transition duration-300 group-hover:scale-[1.02]">
+                    <img src="{{ $image }}" alt="Photo of {{ $house->address_line_1 }}, {{ $house->city }}"
+                        class="aspect-[4/3] w-full object-cover" />
 
                     {{-- Dark gradient --}}
-                    <div class=" pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/60
-                    to-transparent">
-                    </div>
+                    <div class="pointer-events-none absolute inset-x-0 bottom-0 h-20
+                                bg-gradient-to-t from-black/60 to-transparent
+                                dark:from-black/70"></div>
                 </div>
 
                 {{-- Address --}}
-                <h2 class="absolute bottom-2 left-3 right-3 truncate text-lg font-semibold text-white drop-shadow "
+                <h2 class="absolute bottom-2 left-3 right-3 truncate text-lg font-semibold text-white drop-shadow"
                     title="{{ $house->address_line_1 }}">
                     {{ $house->address_line_1 }}
                 </h2>
 
                 {{-- BER badge --}}
-                <span
-                    class="absolute left-2 top-2 rounded-full px-2.5 py-1 text-xs font-medium ring-1 ring-inset {{ $berBadge($house->energy_rating) }}">
+                <span class="absolute left-2 top-2 rounded-full px-2.5 py-1 text-xs font-medium ring-1 ring-inset
+                    {{ $berBadge($house->energy_rating) }}">
                     BER {{ $house->energy_rating }}
                 </span>
 
-                {{-- Top bid / price + "New bid" badge --}}
+                {{-- Top bid --}}
                 <div class="absolute right-2 top-2 flex flex-col items-end gap-1">
                     <span
-                        class="inline-flex items-baseline rounded-full bg-white/95 px-3 py-1 text-xs font-semibold text-gray-900 shadow-sm ring-1 ring-gray-200">
-                        <span class="mr-1 text-[10px] uppercase tracking-wide text-gray-500">Top bid</span>
+                        class="inline-flex items-baseline rounded-full bg-white/95 px-3 py-1 text-xs font-semibold text-gray-900 shadow-sm ring-1 ring-gray-200 dark:bg-gray-800/90 dark:text-gray-100 dark:ring-gray-700">
+                        <span class="mr-1 text-[10px] uppercase tracking-wide text-gray-500 dark:text-gray-400">
+                            Top bid
+                        </span>
                         <span class="text-sm">
-                            @if($topBidValue)
-                            €{{ number_format($topBidValue, 0) }}
-                            @else
-                            —
-                            @endif
+                            {{ $topBidValue ? '€' . number_format($topBidValue, 0) : '—' }}
                         </span>
                     </span>
                 </div>
@@ -67,62 +64,58 @@ $user = auth()->user();
             {{-- Body --}}
             <div class="flex flex-1 flex-col p-4">
                 <div class="mb-1 flex items-center justify-between gap-3">
-                    <p class="truncate text-xs text-gray-500"
+                    <p class="truncate text-xs text-gray-500 dark:text-gray-400"
                         title="{{ $house->city }}, {{ $house->county }} {{ $house->zip }}">
                         {{ $house->city }}, {{ $house->county }} {{ $house->zip }}
                     </p>
 
                     <span
-                        class="shrink-0 rounded-full bg-gray-50 px-2 py-0.5 text-xs font-medium capitalize text-gray-700 ring-1 ring-inset ring-gray-200">
+                        class="shrink-0 rounded-full bg-gray-50 px-2 py-0.5 text-xs font-medium capitalize text-gray-700 ring-1 ring-inset ring-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:ring-gray-700">
                         {{ $house->house_type }}
                     </span>
                 </div>
 
                 {{-- Details --}}
-                <dl class="mt-2 grid grid-cols-3 gap-2 text-xs text-gray-700">
+                <dl class="mt-2 grid grid-cols-3 gap-2 text-xs text-gray-700 dark:text-gray-300">
                     <div class="flex items-center gap-1.5">
-                        <svg class="h-4 w-4 text-gray-400" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <svg class="h-4 w-4 text-gray-400 dark:text-gray-500" fill="currentColor">
                             <path
                                 d="M6 7a3 3 0 0 1 3-3h6a3 3 0 0 1 3 3v3h1a1 1 0 0 1 1 1v6h-2v-2H4v2H2v-6a1 1 0 0 1 1-1h1V7h2Zm2 0v3h8V7a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1Z" />
                         </svg>
-                        <dt class="sr-only">Beds</dt>
                         <dd>{{ $house->beds }} beds</dd>
                     </div>
 
                     <div class="flex items-center gap-1.5">
-                        <svg class="h-4 w-4 text-gray-400" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <svg class="h-4 w-4 text-gray-400 dark:text-gray-500" fill="currentColor">
                             <path
-                                d="M7 3a3 3 0 0 1 3 3v3h9a1 1 0 1 1 0 2h-1v3a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4v-3H3a1 1 0 1 1 0-2h1V6a3 3 0 0 1 3-3Zm0 2a1 1 0 0 0-1 1v3h4V6a1 1 0 0 0-1-1H7Z" />
+                                d="M7 3a3 3 0 0 1 3 3v3h9a1 1 0 1 1 0 2h-1v3a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4v-3H3a1 1 0 1 1 0-2h1V6a3 3 0 0 1 3-3Z" />
                         </svg>
-                        <dt class="sr-only">Baths</dt>
                         <dd>{{ $house->baths }} baths</dd>
                     </div>
 
                     <div class="flex items-center gap-1.5">
-                        <svg class="h-4 w-4 text-gray-400" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                            <path
-                                d="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Zm0 2v14h14V5H5Z" />
+                        <svg class="h-4 w-4 text-gray-400 dark:text-gray-500" fill="currentColor">
+                            <path d="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z" />
                         </svg>
-                        <dt class="sr-only">Area</dt>
                         <dd>{{ number_format($house->square_metres) }} m²</dd>
                     </div>
                 </dl>
 
-                <p class="mt-3 line-clamp-2 text-sm text-gray-700">
+                <p class="mt-3 line-clamp-2 text-sm text-gray-700 dark:text-gray-300">
                     {{ $house->description }}
                 </p>
             </div>
 
             {{-- Footer --}}
-            <div class="flex items-center justify-between border-t border-gray-100 px-4 py-3">
-                <span class="text-xs text-gray-500">Tap to view details</span>
-                <span class="flex items-center gap-1 text-sm font-medium text-indigo-600 group-hover:text-indigo-700">
+            <div class="flex items-center justify-between border-t border-gray-100 px-4 py-3
+                        dark:border-gray-700">
+                <span class="text-xs text-gray-500 dark:text-gray-400">Tap to view details</span>
+                <span
+                    class="flex items-center gap-1 text-sm font-medium text-indigo-600 group-hover:text-indigo-700 dark:text-indigo-400">
                     View
-                    <svg class="h-4 w-4 transition-transform group-hover:translate-x-0.5" viewBox="0 0 20 20"
-                        fill="currentColor" aria-hidden="true">
+                    <svg class="h-4 w-4 transition-transform group-hover:translate-x-0.5" fill="currentColor">
                         <path fill-rule="evenodd"
-                            d="M3 10a1 1 0 0 1 1-1h9.586L11.293 6.707a1 1 0 1 1 1.414-1.414l4 4a1 1 0 0 1 0 1.414l-4 4a1 1 0 1 1-1.414-1.414L13.586 11H4a1 1 0 0 1-1-1Z"
-                            clip-rule="evenodd" />
+                            d="M3 10a1 1 0 0 1 1-1h9.586L11.293 6.707a1 1 0 1 1 1.414-1.414l4 4a1 1 0 0 1 0 1.414l-4 4a1 1 0 1 1-1.414-1.414L13.586 11H4a1 1 0 0 1-1-1Z" />
                     </svg>
                 </span>
             </div>
@@ -133,15 +126,16 @@ $user = auth()->user();
     @if($user && (in_array($user->id, $house->realtors->pluck('id')->all()) || $user->role === 'admin'))
     <div class="mt-3 flex items-center justify-end gap-2 text-xs">
         <a href="{{ route('houses.edit', $house) }}"
-            class="inline-flex items-center gap-1 rounded-lg border border-amber-200 bg-amber-50 px-3 py-1.5 font-medium text-amber-700 hover:bg-amber-100 hover:border-amber-300">
+            class="inline-flex items-center gap-1 rounded-lg border border-amber-200 bg-amber-50 px-3 py-1.5 font-medium text-amber-700 hover:bg-amber-100 hover:border-amber-300 ">
             Edit
         </a>
+
         <form action="{{ route('houses.destroy', $house) }}" method="POST"
             onsubmit="return confirm('Are you sure you want to delete this house?');">
             @csrf
             @method('DELETE')
             <button type="submit"
-                class="inline-flex cursor-pointer items-center gap-1 rounded-lg border border-red-200 bg-red-50 px-3 py-1.5 font-medium text-red-700 hover:bg-red-100 hover:border-red-300">
+                class="inline-flex items-center gap-1 rounded-lg border border-red-200 bg-red-50 px-3 py-1.5 font-medium text-red-700 hover:bg-red-100 hover:border-red-300 cursor-pointer ">
                 Delete
             </button>
         </form>
