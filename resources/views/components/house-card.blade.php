@@ -1,36 +1,43 @@
 @props(['house'])
 
 @php
-    // Expression match BER rating to tailwind styling
-    $berBadge = function (string $rating) {
-        return match ($rating) {
-            'A1', 'A2', 'A3' => 'bg-emerald-100 text-emerald-700 ring-emerald-200',
-            'B1', 'B2', 'B3' => 'bg-lime-100 text-lime-700 ring-lime-200',
-            'C1', 'C2', 'C3' => 'bg-yellow-100 text-yellow-700 ring-yellow-200',
-            'D1', 'D2' => 'bg-amber-100 text-amber-700 ring-amber-200',
-            'E1', 'E2', 'F', 'G' => 'bg-red-100 text-red-700 ring-red-200',
-            default => 'bg-gray-100 text-gray-700 ring-gray-200',
-        };
-    };
+// BER badge → Tailwind styles
+$berBadge = function (string $rating) {
+return match ($rating) {
+'A1', 'A2', 'A3' => 'bg-emerald-100 text-emerald-700 ring-emerald-200',
+'B1', 'B2', 'B3' => 'bg-lime-100 text-lime-700 ring-lime-200',
+'C1', 'C2', 'C3' => 'bg-yellow-100 text-yellow-700 ring-yellow-200',
+'D1', 'D2' => 'bg-amber-100 text-amber-700 ring-amber-200',
+'E1', 'E2', 'F', 'G' => 'bg-red-100 text-red-700 ring-red-200',
+default => 'bg-gray-100 text-gray-700 ring-gray-200',
+};
+};
+
+$image = $house->featured_image_url ?? asset('images/houses/' . $house->featured_image);
+$topBidValue = $house->bids_max_value ?? null;
+
+$user = auth()->user();
 @endphp
 
 <div class="w-full">
     <a href="{{ route('houses.show', $house) }}" class="group block focus:outline-none">
-        <article class="flex h-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition
-             hover:-translate-y-0.5 hover:shadow-md focus-within:ring-2 focus-within:ring-indigo-500">
+        <article
+            class="flex h-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md focus-within:ring-2 focus-within:ring-indigo-500">
 
-            {{-- Image --}}
-            <div class="relative group-hover:scale-[1.02]">
-                <img src="{{ $house->featured_image_url ?? asset('images/houses/' . $house->featured_image) }}"
-                    onerror="this.src='https://placehold.co/800x600?text=House';"
-                    alt="Photo of {{ $house->address_line_1 }}, {{ $house->city }}"
-                    class="aspect-[4/3] w-full object-cover transition duration-300 " />
+            {{-- Image / badges --}}
+            <div class="relative">
+                <div class=" group-hover:scale-[1.02] transition duration-300">
+                    <img src=" {{ $image }}" alt="Photo of {{ $house->address_line_1 }}, {{ $house->city }}"
+                        class="aspect-[4/3] w-full object-cover " />
 
-                <div
-                    class="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/55 to-transparent">
+                    {{-- Dark gradient --}}
+                    <div class=" pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/60
+                    to-transparent">
+                    </div>
                 </div>
 
-                <h2 class="absolute bottom-2 left-3 right-3 truncate text-sm font-semibold text-white drop-shadow"
+                {{-- Address --}}
+                <h2 class="absolute bottom-2 left-3 right-3 truncate text-lg font-semibold text-white drop-shadow "
                     title="{{ $house->address_line_1 }}">
                     {{ $house->address_line_1 }}
                 </h2>
@@ -38,13 +45,23 @@
                 {{-- BER badge --}}
                 <span
                     class="absolute left-2 top-2 rounded-full px-2.5 py-1 text-xs font-medium ring-1 ring-inset {{ $berBadge($house->energy_rating) }}">
-                    {{ $house->energy_rating }}
+                    BER {{ $house->energy_rating }}
                 </span>
 
-                {{-- Price badge --}}
-                <span class="absolute right-2 top-2 rounded-full px-2.5 py-1 text-md font-medium  bg-white">
-                    €{{ $house->bids_max_value }}
-                </span>
+                {{-- Top bid / price + "New bid" badge --}}
+                <div class="absolute right-2 top-2 flex flex-col items-end gap-1">
+                    <span
+                        class="inline-flex items-baseline rounded-full bg-white/95 px-3 py-1 text-xs font-semibold text-gray-900 shadow-sm ring-1 ring-gray-200">
+                        <span class="mr-1 text-[10px] uppercase tracking-wide text-gray-500">Top bid</span>
+                        <span class="text-sm">
+                            @if($topBidValue)
+                            €{{ number_format($topBidValue, 0) }}
+                            @else
+                            —
+                            @endif
+                        </span>
+                    </span>
+                </div>
             </div>
 
             {{-- Body --}}
@@ -56,12 +73,12 @@
                     </p>
 
                     <span
-                        class="shrink-0 rounded-full bg-gray-50 px-2 py-0.5 text-[10px] font-medium capitalize text-gray-600 ring-1 ring-inset ring-gray-200">
+                        class="shrink-0 rounded-full bg-gray-50 px-2 py-0.5 text-xs font-medium capitalize text-gray-700 ring-1 ring-inset ring-gray-200">
                         {{ $house->house_type }}
                     </span>
                 </div>
 
-                {{-- Details--}}
+                {{-- Details --}}
                 <dl class="mt-2 grid grid-cols-3 gap-2 text-xs text-gray-700">
                     <div class="flex items-center gap-1.5">
                         <svg class="h-4 w-4 text-gray-400" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -113,22 +130,21 @@
     </a>
 
     {{-- Admin actions --}}
-    @if(in_array(Auth::user()->id, $house->realtors->pluck('id')->all()) || Auth::user()->role == 'admin')
-        <div class="mt-4 flex space-x-2">
-            <a href="{{ route('houses.edit', $house) }}"
-                class="text-white bg-orange-500 hover:bg-orange-700 font-bold py-2 px-4 rounded-lg">
-                Edit
-            </a>
-            <form action="{{ route('houses.destroy', $house) }}" method="POST"
-                onsubmit="return confirm('Are you sure you want to delete this house?');">
-                @csrf
-                @method('DELETE')
-                <button type="submit"
-                    class="bg-red-500 cursor-pointer hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg">
-                    Delete
-                </button>
-            </form>
-        </div>
+    @if($user && (in_array($user->id, $house->realtors->pluck('id')->all()) || $user->role === 'admin'))
+    <div class="mt-3 flex items-center justify-end gap-2 text-xs">
+        <a href="{{ route('houses.edit', $house) }}"
+            class="inline-flex items-center gap-1 rounded-lg border border-amber-200 bg-amber-50 px-3 py-1.5 font-medium text-amber-700 hover:bg-amber-100 hover:border-amber-300">
+            Edit
+        </a>
+        <form action="{{ route('houses.destroy', $house) }}" method="POST"
+            onsubmit="return confirm('Are you sure you want to delete this house?');">
+            @csrf
+            @method('DELETE')
+            <button type="submit"
+                class="inline-flex cursor-pointer items-center gap-1 rounded-lg border border-red-200 bg-red-50 px-3 py-1.5 font-medium text-red-700 hover:bg-red-100 hover:border-red-300">
+                Delete
+            </button>
+        </form>
+    </div>
     @endif
-
 </div>
