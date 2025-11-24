@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('house_user', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->foreignIdFor(User::class)->onDelete('cascade');
-            $table->foreignIdFor(House::class)->onDelete('cascade');
+            $table->foreignIdFor(User::class)->constrained()->onDelete('cascade');
+            $table->foreignIdFor(House::class)->constrained()->onDelete('cascade');
             $table->unique(['house_id', 'user_id']);
         });
     }
