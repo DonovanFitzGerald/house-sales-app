@@ -1,31 +1,31 @@
 @props(['house', 'topBid'])
 
 @php
-    // BER badge → Tailwind styles
-    $badgeFor = static function (?string $rating): string {
-        $rating = strtoupper((string) $rating);
-        return match ($rating) {
-            'A1', 'A2', 'A3' => 'bg-emerald-100 text-emerald-700 ring-emerald-200',
-            'B1', 'B2', 'B3' => 'bg-lime-100 text-lime-700 ring-lime-200',
-            'C1', 'C2', 'C3' => 'bg-yellow-100 text-yellow-700 ring-yellow-200',
-            'D1', 'D2' => 'bg-amber-100 text-amber-700 ring-amber-200',
-            'E1', 'E2', 'F', 'G' => 'bg-red-100 text-red-700 ring-red-200',
-            default => 'bg-gray-100 text-gray-700 ring-gray-200',
-        };
-    };
+// BER badge → Tailwind styles
+$badgeFor = static function (?string $rating): string {
+$rating = strtoupper((string) $rating);
+return match ($rating) {
+'A1', 'A2', 'A3' => 'bg-emerald-100 text-emerald-700 ring-emerald-200',
+'B1', 'B2', 'B3' => 'bg-lime-100 text-lime-700 ring-lime-200',
+'C1', 'C2', 'C3' => 'bg-yellow-100 text-yellow-700 ring-yellow-200',
+'D1', 'D2' => 'bg-amber-100 text-amber-700 ring-amber-200',
+'E1', 'E2', 'F', 'G' => 'bg-red-100 text-red-700 ring-red-200',
+default => 'bg-gray-100 text-gray-700 ring-gray-200',
+};
+};
 
-    $img = $house->featured_image_url ?? asset('images/houses/' . $house->featured_image);
-    $address = trim(collect([
-        $house->address_line_1,
-        $house->address_line_2,
-        $house->city,
-        $house->county,
-        $house->zip
-    ])->filter()->implode(', '));
+$img = $house->featured_image_url ?? asset('images/houses/' . $house->featured_image);
+$address = trim(collect([
+$house->address_line_1,
+$house->address_line_2,
+$house->city,
+$house->county,
+$house->zip
+])->filter()->implode(', '));
 
-    $bidder = $topBid?->user;
-    $avatar = $bidder?->featured_image_url
-        ?? ($bidder?->featured_image ? asset('images/users/' . $bidder->featured_image) : asset('images/users/default.jpg'));
+$bidder = $topBid?->user;
+$avatar = $bidder?->featured_image_url
+?? ($bidder?->featured_image ? asset('images/users/' . $bidder->featured_image) : asset('images/users/default.jpg'));
 @endphp
 
 <section aria-labelledby="house-title" class="mx-auto max-w-6xl">
@@ -117,7 +117,7 @@
                         <div class="text-gray-800">
                             <div itemprop="streetAddress">{{ $house->address_line_1 }}</div>
                             @if($house->address_line_2)
-                                <div itemprop="streetAddress">{{ $house->address_line_2 }}</div>
+                            <div itemprop="streetAddress">{{ $house->address_line_2 }}</div>
                             @endif
                             <div><span itemprop="addressLocality">{{ $house->city }}</span>, <span
                                     itemprop="addressRegion">{{ $house->county }}</span></div>
@@ -169,20 +169,21 @@
                     </a>
 
                     {{-- Admin actions --}}
-                    @if(Auth::user()->role == 'admin' || in_array(Auth::user()->id, $house->realtors->pluck('id')->all()))
-                        <button type="button" onmousedown="openEditDialog()"
-                            class="cursor-pointer inline-flex items-center justify-center rounded-lg bg-amber-500 px-4 py-2 text-sm font-medium text-white hover:bg-amber-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300">
-                            Edit
+                    @if(Auth::user()->role == 'admin' || in_array(Auth::user()->id,
+                    $house->realtors->pluck('id')->all()))
+                    <button type="button" onmousedown="openEditDialog()"
+                        class="cursor-pointer inline-flex items-center justify-center rounded-lg bg-amber-500 px-4 py-2 text-sm font-medium text-white hover:bg-amber-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300">
+                        Edit
+                    </button>
+                    <form action="{{ route('houses.destroy', $house) }}" method="POST" class="w-full"
+                        onsubmit="return confirm('Are you sure you want to delete this house?');">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit"
+                            class="cursor-pointer inline-flex w-full items-center justify-center rounded-lg bg-red-700 px-4 py-2 text-sm font-medium text-white hover:bg-red-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-300">
+                            Delete
                         </button>
-                        <form action="{{ route('houses.destroy', $house) }}" method="POST" class="w-full"
-                            onsubmit="return confirm('Are you sure you want to delete this house?');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit"
-                                class="cursor-pointer inline-flex w-full items-center justify-center rounded-lg bg-red-700 px-4 py-2 text-sm font-medium text-white hover:bg-red-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-300">
-                                Delete
-                            </button>
-                        </form>
+                    </form>
                     @endif
                 </div>
             </div>
@@ -193,22 +194,22 @@
                     <h2 id="top-bid-title" class="text-base font-semibold text-gray-900">Top bid</h2>
 
                     @if($topBid)
-                        <dl class="mt-4 grid grid-cols-1 gap-3 ">
-                            <p class="mt-1 font-semibold text-gray-900">€{{ number_format($topBid->value, 0) }}</p>
-                        </dl>
+                    <dl class="mt-4 grid grid-cols-1 gap-3 ">
+                        <p class="mt-1 font-semibold text-gray-900">€{{ number_format($topBid->value, 0) }}</p>
+                    </dl>
 
-                        <div class="mt-4 flex items-center gap-3">
-                            <img src="{{ $avatar }}"
-                                alt="{{ $bidder?->name ? 'Avatar of ' . $bidder->name : 'Bidder avatar' }}"
-                                class="h-10 w-10 rounded-full object-cover ring-1 ring-gray-200" loading="lazy">
-                            <div class="min-w-0">
-                                <p class="truncate text-sm font-medium text-gray-900">
-                                    {{ $bidder?->name ?? 'Anonymous bidder' }}
-                                </p>
-                            </div>
+                    <div class="mt-4 flex items-center gap-3">
+                        <img src="{{ $avatar }}"
+                            alt="{{ $bidder?->name ? 'Avatar of ' . $bidder->name : 'Bidder avatar' }}"
+                            class="h-10 w-10 rounded-full object-cover ring-1 ring-gray-200" loading="lazy">
+                        <div class="min-w-0">
+                            <p class="truncate text-sm font-medium text-gray-900">
+                                {{ $bidder?->name ?? 'Anonymous bidder' }}
+                            </p>
                         </div>
+                    </div>
                     @else
-                        <p class="mt-4 text-sm text-gray-600">No bids yet.</p>
+                    <p class="mt-4 text-sm text-gray-600">No bids yet.</p>
                     @endif
                 </div>
                 <a href="{{ route('bids.create', $house) }}"
@@ -221,39 +222,37 @@
 
     {{-- Edit dialog --}}
     @if(Auth::user()->role == 'admin' || in_array(Auth::user()->id, $house->realtors->pluck('id')->all()))
-        <dialog id="editDialog" class="backdrop:bg-black/50 rounded-2xl p-0 w-[min(860px,90vw)]">
-            <form method="dialog">
-                <div class="flex items-center justify-between border-b border-gray-200 px-5 py-3">
-                    <h3 class="text-base font-semibold text-gray-900">Edit house</h3>
-                    <button class="rounded-md p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700" aria-label="Close"
-                        onclick="closeEditDialog()">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="size-5" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor">
-                            <path d="M6 6l12 12M6 18L18 6" />
-                        </svg>
-                    </button>
-                </div>
-            </form>
-            <div class="p-5">
-                <x-house-form action="{{ route('houses.update', $house) }}" method="PUT" :house="$house" />
+    <dialog id="editDialog" class="backdrop:bg-black/50 rounded-2xl p-0 w-[min(860px,90vw)]">
+        <form method="dialog">
+            <div class="flex items-center justify-between border-b border-gray-200 px-5 py-3">
+                <h3 class="text-base font-semibold text-gray-900">Edit house</h3>
+                <button class="rounded-md p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700" aria-label="Close"
+                    onclick="closeEditDialog()">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="size-5" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor">
+                        <path d="M6 6l12 12M6 18L18 6" />
+                    </svg>
+                </button>
             </div>
-        </dialog>
-        <script>
-            const dialogEl = document.getElementById('editDialog');
+        </form>
+        <div class="p-5">
+            <x-house-form action="{{ route('houses.update', $house) }}" method="PUT" :house="$house" />
+        </div>
+    </dialog>
+    <script>
+    const dialogEl = document.getElementById('editDialog');
 
-            function openEditDialog()
-            {
-                if (!dialogEl.open) {
-                    dialogEl.showModal();
-                }
-            }
+    function openEditDialog() {
+        if (!dialogEl.open) {
+            dialogEl.showModal();
+        }
+    }
 
-            function closeEditDialog()
-            {
-                if (dialogEl.open) {
-                    dialogEl.close();
-                }
-            }
-        </script>
+    function closeEditDialog() {
+        if (dialogEl.open) {
+            dialogEl.close();
+        }
+    }
+    </script>
     @endif
 </section>
