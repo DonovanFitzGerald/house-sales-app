@@ -1,21 +1,21 @@
 @props(['house'])
 
 @php
-// BER badge → Tailwind styles
-$berBadge = function (string $rating) {
-return match ($rating) {
-'A1','A2','A3' => 'bg-emerald-100 text-emerald-700 ring-emerald-200',
-'B1','B2','B3' => 'bg-lime-100 text-lime-700 ring-lime-200',
-'C1','C2','C3' => 'bg-yellow-100 text-yellow-700 ring-yellow-200 ',
-'D1','D2' => 'bg-amber-100 text-amber-700 ring-amber-200 ',
-'E1','E2','F','G' => 'bg-red-100 text-red-700 ring-red-200 ',
-default => 'bg-gray-100 text-gray-700 ring-gray-200 ',
-};
-};
+    // BER badge → Tailwind styles
+    $berBadge = function (string $rating) {
+        return match ($rating) {
+            'A1', 'A2', 'A3' => 'bg-emerald-100 text-emerald-700 ring-emerald-200',
+            'B1', 'B2', 'B3' => 'bg-lime-100 text-lime-700 ring-lime-200',
+            'C1', 'C2', 'C3' => 'bg-yellow-100 text-yellow-700 ring-yellow-200 ',
+            'D1', 'D2' => 'bg-amber-100 text-amber-700 ring-amber-200 ',
+            'E1', 'E2', 'F', 'G' => 'bg-red-100 text-red-700 ring-red-200 ',
+            default => 'bg-gray-100 text-gray-700 ring-gray-200 ',
+        };
+    };
 
-$image = $house->featured_image_url ?? asset('images/houses/' . $house->featured_image);
-$topBidValue = $house->bids_max_value;
-$user = auth()->user();
+    $image = $house->featured_image_url ?? asset('images/houses/' . $house->featured_image);
+    $topBidValue = $house->bids_max_value;
+    $user = auth()->user();
 @endphp
 
 <div class="w-full">
@@ -124,21 +124,21 @@ $user = auth()->user();
 
     {{-- Admin actions --}}
     @if($user && (in_array($user->id, $house->realtors->pluck('id')->all()) || $user->role === 'admin'))
-    <div class="mt-3 flex items-center justify-end gap-2 text-xs">
-        <a href="{{ route('houses.edit', $house) }}"
-            class="inline-flex items-center gap-1 rounded-lg border border-amber-200 bg-amber-50 px-3 py-1.5 font-medium text-amber-700 hover:bg-amber-100 hover:border-amber-300 ">
-            Edit
-        </a>
+        <div class="mt-3 flex items-center justify-end gap-2 text-xs">
+            <a href="{{ route('houses.edit', $house) }}"
+                class="inline-flex items-center gap-1 rounded-lg border border-amber-200 bg-amber-50 px-3 py-1.5 font-medium text-amber-700 hover:bg-amber-100 hover:border-amber-300 ">
+                Edit
+            </a>
 
-        <form action="{{ route('houses.destroy', $house) }}" method="POST"
-            onsubmit="return confirm('Are you sure you want to delete this house?');">
-            @csrf
-            @method('DELETE')
-            <button type="submit"
-                class="inline-flex items-center gap-1 rounded-lg border border-red-200 bg-red-50 px-3 py-1.5 font-medium text-red-700 hover:bg-red-100 hover:border-red-300 cursor-pointer ">
-                Delete
-            </button>
-        </form>
-    </div>
+            <form action="{{ route('houses.destroy', $house) }}" method="POST"
+                onsubmit="return confirm('Are you sure you want to delete this house?');">
+                @csrf
+                @method('DELETE')
+                <button type="submit"
+                    class="inline-flex items-center gap-1 rounded-lg border border-red-200 bg-red-50 px-3 py-1.5 font-medium text-red-700 hover:bg-red-100 hover:border-red-300 cursor-pointer ">
+                    Delete
+                </button>
+            </form>
+        </div>
     @endif
 </div>

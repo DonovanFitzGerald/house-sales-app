@@ -216,7 +216,7 @@
                         <p class="mt-4 text-sm text-gray-600">No bids yet.</p>
                     @endif
                 </div>
-                <a href="{{ route('bids.create', $house) }}"
+                <a href="{{ route('houses.bids.create', $house) }}"
                     class="bg-gray-900 text-white hover:bg-gray-800 w-full text-md font-medium border  flex items-center justify-center rounded-lg px-4 py-2">
                     <p>Place a bid</p>
                 </a>

@@ -1,26 +1,22 @@
 @props([
-'action' => '#',
-'method' => 'POST',
-'bid' => null,
-'submitLabel' => 'Save',
-'house' => null
+    'action' => '#',
+    'method' => 'POST',
+    'bid' => null,
+    'submitLabel' => 'Save',
 ])
 
 @php
-$val = fn($k) => old($k, $bid?->$k);
-dd($house);
+    $val = fn($k) => old($k, $bid?->$k);
 @endphp
 
 <form action="{{ $action }}" method="POST" enctype="multipart/form-data" {{ $attributes->merge([
-        'class' =>
-            'space-y-6 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-900',
-    ]) }}>
+    'class' =>
+        'space-y-6 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-900',
+]) }}>
     @csrf
     @if($method === 'PUT' || $method === 'PATCH')
-    @method($method)
+        @method($method)
     @endif
-
-    <input type="hidden" name="house" value="{{ $house }}">
 
     <div>
         <label for="bid_value" class="block text-sm font-medium text-gray-800 dark:text-gray-100">
@@ -33,17 +29,17 @@ dd($house);
                 €
             </span>
 
-            <input id="bid_value" type="number" min="0" step="1" name="value" value="{{ $val('value') }}"
+                <input id="bid_value" type="number" min="0" step="1" name="value" value="{{ $val('value') }}"
                 class="block w-full rounded-xl border border-gray-300 bg-white px-3 py-2 pl-8 text-sm text-gray-900 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-300  dark:border-gray-700 dark:bg-gray-950 dark:text-gray-100 dark:focus:border-indigo-400 dark:focus:ring-indigo-500"
                 placeholder="Enter your bid" />
         </div>
 
-        <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
+<p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
             Enter the amount you’d like to bid for this property.
         </p>
 
         @error('value')
-        <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+            <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
         @enderror
     </div>
 

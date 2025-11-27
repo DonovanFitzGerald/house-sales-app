@@ -21,7 +21,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::resource('houses', HouseController::class);
+Route::resource('houses.bids', BidController::class);
 Route::resource('realtors', RealtorController::class);
-Route::resource('bids', BidController::class);
 
 require __DIR__.'/auth.php';

@@ -6,6 +6,6 @@
     </x-slot>
 
     <div class="mt-6 max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <x-bid-form action="{{ route('bids.store') }}" method="POST" :house="$house" />
+        <x-bid-form action="{{ route('houses.bids.store', $house) }}" method="POST" />
     </div>
 </x-app-layout>
