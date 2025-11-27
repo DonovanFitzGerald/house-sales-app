@@ -2,10 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
-use App\Models\User;
 use App\Models\House;
+use App\Models\User;
+use Illuminate\Database\Seeder;
 
 class HouseSeeder extends Seeder
 {
@@ -50,7 +49,7 @@ class HouseSeeder extends Seeder
 
             $house = House::create($house);
 
-            $houseRealtors = User::inRandomOrder()->where('role', 'realtor')->take($faker->numberBetween(1,5))->pluck('id');
+            $houseRealtors = User::inRandomOrder()->where('role', 'realtor')->take($faker->numberBetween(1, 5))->pluck('id');
 
             $house->realtors()->attach($houseRealtors);
         }

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bid;
-use App\Models\User;
 use App\Models\House;
 use Illuminate\Http\Request;
 
@@ -28,26 +27,24 @@ class BidController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-public function store(Request $request)
-{
-    dd($request);
-    
-    $validated = $request->validate([
-        'value'    => 'required|integer|min:1',
-    ]);
+    public function store(Request $request)
+    {
+        dd($request);
 
+        $validated = $request->validate([
+            'value' => 'required|integer|min:1',
+        ]);
 
-    $bid = Bid::create([
-        'value'    => $validated['value'],
-        'user_id'  => auth()->user()->id,
-        'house_id' => $validated['house']->id,
-    ]);
+        $bid = Bid::create([
+            'value' => $validated['value'],
+            'user_id' => auth()->user()->id,
+            'house_id' => $validated['house']->id,
+        ]);
 
-    return redirect()
-        ->route('houses.show', $bid->house_id)
-        ->with('success', 'Your bid was placed successfully.');
-}
-
+        return redirect()
+            ->route('houses.show', $bid->house_id)
+            ->with('success', 'Your bid was placed successfully.');
+    }
 
     /**
      * Display the specified resource.
@@ -70,7 +67,7 @@ public function store(Request $request)
      */
     public function update(Request $request, Bid $bid)
     {
-         // Validate the input data
+        // Validate the input data
         $validated = $request->validate([
             'value' => 'required|integer',
         ]);

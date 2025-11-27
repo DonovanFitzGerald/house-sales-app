@@ -32,7 +32,7 @@ class House extends Model
 
     public function bids()
     {
-        return $this->hasMany(Bid::class)->orderBy('value','desc');
+        return $this->hasMany(Bid::class)->orderBy('value', 'desc');
     }
 
     public function topBid()

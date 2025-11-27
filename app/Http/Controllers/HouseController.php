@@ -37,13 +37,13 @@ class HouseController extends Controller
                     }
                 })
                 ->latest('created_at')
-                ->withMax('bids', 'value') 
+                ->withMax('bids', 'value')
                 ->paginate(12)
                 ->withQueryString();
         } else {
             $houses = House::query()
                 ->latest('created_at')
-                ->withMax('bids', 'value') 
+                ->withMax('bids', 'value')
                 ->paginate(12)
                 ->withQueryString();
         }

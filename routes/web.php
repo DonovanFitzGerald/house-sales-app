@@ -1,9 +1,9 @@
 <?php
 
+use App\Http\Controllers\BidController;
 use App\Http\Controllers\HouseController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RealtorController;
-use App\Http\Controllers\BidController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -23,6 +23,5 @@ Route::middleware('auth')->group(function () {
 Route::resource('houses', HouseController::class);
 Route::resource('realtors', RealtorController::class);
 Route::resource('bids', BidController::class);
-
 
 require __DIR__.'/auth.php';
