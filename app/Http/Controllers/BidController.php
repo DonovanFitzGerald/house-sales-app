@@ -27,21 +27,21 @@ class BidController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-public function store(Request $request, House $house)
-{
-    $validated = $request->validate([
-        'value' => 'required|integer|min:1',
-    ]);
+    public function store(Request $request, House $house)
+    {
+        $validated = $request->validate([
+            'value' => 'required|integer|min:1',
+        ]);
 
-    $house->bids()->create([
-        'value'   => $validated['value'],
-        'user_id' => $request->user()->id,
-    ]);
+        $house->bids()->create([
+            'value' => $validated['value'],
+            'user_id' => $request->user()->id,
+        ]);
 
-    return redirect()
-        ->route('houses.show', $house)
-        ->with('success', 'Your bid was placed successfully.');
-}
+        return redirect()
+            ->route('houses.show', $house)
+            ->with('success', 'Your bid was placed successfully.');
+    }
 
     /**
      * Display the specified resource.
