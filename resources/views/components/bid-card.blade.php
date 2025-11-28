@@ -54,11 +54,11 @@
         {{-- Admin actions --}}
         @if(Auth::user()->role == 'admin')
             <div class=" flex space-x-2">
-                <a href="{{ route('bids.edit', $bid) }}"
-                    class="text-white bg-orange-500 hover:bg-orange-700 font-bold h-full px-4 rounded-lg text-center flex items-center">
+                <a href="{{ route('houses.bids.edit', [$bid->house, $bid]) }}" class="text-white bg-orange-500 hover:bg-orange-700 font-bold h-full px-4 rounded-lg text-center flex
+                            items-center">
                     <p>Edit</p>
                 </a>
-                <form action="{{ route('bids.destroy', $bid) }}" method="POST"
+                <form action="{{ route('houses.bids.destroy', [$bid->house, $bid]) }}" method="POST"
                     onsubmit="return confirm('Are you sure you want to delete this bid?');">
                     @csrf
                     @method('DELETE')
