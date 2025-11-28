@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
         $rows = [
             [
                 'name' => 'Admin',
-                'email' => 'admin@example.com',
+                'email' => 'donovan@admin.com',
                 'phone_number' => $faker->phoneNumber(),
                 'password' => Hash::make('password'),
                 'role' => 'admin',
@@ -28,7 +28,7 @@ class UserSeeder extends Seeder
             [
                 'name' => 'Donovan',
                 'phone_number' => $faker->phoneNumber(),
-                'email' => 'donovan.fitzg@gmail.com',
+                'email' => 'donovan@user.com',
                 'password' => Hash::make('password'),
                 'role' => 'user',
                 'featured_image' => 'placeholder.jpg',
@@ -36,7 +36,7 @@ class UserSeeder extends Seeder
             [
                 'name' => 'Donovan Realtor',
                 'phone_number' => $faker->phoneNumber(),
-                'email' => 'donovan.fitzg@realtor.com',
+                'email' => 'donovan@realtor.com',
                 'password' => Hash::make('password'),
                 'role' => 'realtor',
                 'featured_image' => 'placeholder.jpg',
