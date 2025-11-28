@@ -1,4 +1,4 @@
-@props(['house', 'topBid'])
+@props(['house', 'bids'])
 
 @php
     // BER badge → Tailwind styles
@@ -23,12 +23,13 @@
         $house->zip
     ])->filter()->implode(', '));
 
+    $topBid = $bids[0];
     $bidder = $topBid?->user;
     $avatar = $bidder?->featured_image_url
         ?? ($bidder?->featured_image ? asset('images/users/' . $bidder->featured_image) : asset('images/users/default.jpg'));
 @endphp
 
-<section aria-labelledby="house-title" class="mx-auto max-w-6xl">
+<section aria-labelledby="house-title" class="mx-auto max-w-6xl max-h-min">
     {{-- Breadcrumbs --}}
     <nav class="mb-4 text-sm" aria-label="Breadcrumb">
         <ol class="flex flex-wrap items-center gap-2 text-gray-500">
@@ -193,31 +194,53 @@
             </div>
 
             {{-- Right: Top bid card --}}
-            <div class="flex flex-col gap-6">
+            <div class="flex flex-col gap-4">
                 <div class="rounded-xl border border-gray-200 p-5 h-fit">
-                    <h2 id="top-bid-title" class="text-base font-semibold text-gray-900">Top bid</h2>
+                    <div class="flex items-center gap-2">
+                        <p class="text-base font-semibold text-gray-900">Top bid:</p>
+                        @if($topBid)
+                            <p class="font-semibold text-gray-900">€{{ number_format($topBid->value, 0) }}</p>
+                        @else
+                            <p class="text-sm text-gray-600">No bids yet.</p>
+                        @endif
+                    </div>
 
-                    @if($topBid)
-                        <dl class="mt-4 grid grid-cols-1 gap-3 ">
-                            <p class="mt-1 font-semibold text-gray-900">€{{ number_format($topBid->value, 0) }}</p>
-                        </dl>
-
-                        <div class="mt-4 flex items-center gap-3">
-                            <img src="{{ $avatar }}"
-                                alt="{{ $bidder?->name ? 'Avatar of ' . $bidder->name : 'Bidder avatar' }}"
-                                class="h-10 w-10 rounded-full object-cover ring-1 ring-gray-200" loading="lazy">
-                            <div class="min-w-0">
-                                <p class="truncate text-sm font-medium text-gray-900">
-                                    {{ $bidder?->name ?? 'Anonymous bidder' }}
-                                </p>
-                            </div>
+                    <div class="mt-4 flex items-center gap-3">
+                        <img src="{{ $avatar }}"
+                            alt="{{ $bidder?->name ? 'Avatar of ' . $bidder->name : 'Bidder avatar' }}"
+                            class="h-10 w-10 rounded-full object-cover ring-1 ring-gray-200" loading="lazy">
+                        <div class="min-w-0">
+                            <p class="truncate text-sm font-medium text-gray-900">
+                                {{ $bidder?->name ?? 'Anonymous bidder' }}
+                            </p>
                         </div>
-                    @else
-                        <p class="mt-4 text-sm text-gray-600">No bids yet.</p>
-                    @endif
+                    </div>
                 </div>
+
+                <p class="text-base font-semibold text-gray-900">Bids</p>
+                <div class="rounded-xl border border-gray-200 p-5 max-h-full overflow-auto">
+                    @foreach ($bids as $bid)
+                        @php
+                            $user = $bid->user
+                        @endphp
+                        <div class="flex flex-nowrap items-center">
+                            <div class="flex items-center gap-3">
+                                <img src="{{  asset('images/users/' . $user->featured_image) }}"
+                                    alt="{{ $user?->name ? 'Avatar of ' . $user->image : 'Bid->user avatar' }}"
+                                    class="h-10 w-10 rounded-full object-cover ring-1 ring-gray-200" loading="lazy">
+                                <div class="min-w-0">
+                                    <p class="truncate text-sm font-medium text-gray-900">
+                                        {{ $user?->name ?? 'Anonymous bid->user' }}
+                                    </p>
+                                </div>
+                            </div>
+                            €{{ number_format($bid->value, 0) }}
+                        </div>
+                    @endforeach
+                </div>
+
                 <a href="{{ route('houses.bids.create', $house) }}"
-                    class="bg-gray-900 text-white hover:bg-gray-800 w-full text-md font-medium border  flex items-center justify-center rounded-lg px-4 py-2">
+                    class="bg-gray-900 text-white hover:bg-gray-800 w-full text-md font-medium border mt-auto flex items-center justify-center rounded-lg px-4 py-2">
                     <p>Place a bid</p>
                 </a>
             </div>
