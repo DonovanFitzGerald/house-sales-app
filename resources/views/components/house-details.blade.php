@@ -194,7 +194,7 @@
             </div>
 
             {{-- Right: Top bid card --}}
-            <div class="flex flex-col gap-4 max-h-min">
+            <div class="flex flex-col gap-4 ">
                 <div class="rounded-xl border border-gray-200 p-5 h-fit">
                     <div class="flex items-center gap-2">
                         <p class="text-base font-semibold text-gray-900">Top bid:</p>
