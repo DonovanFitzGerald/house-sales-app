@@ -1,13 +1,11 @@
-@php
-    $realtor = Auth::user();
-    $houses = $realtor->houses;
-@endphp
-<div class="flex flex-col gap-4">
-    <div class="rounded-2xl border border-gray-200 bg-white shadow-sm px-6 py-4">
-        <h1 class="text-xl font-semibold text-gray-900 ">Your Listings</h1>
-    </div>
+<x-slot name="header">
+    <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        {{ __('Your Listings') }}
+    </h2>
+</x-slot>
+<div class="max-w-7xl mx-auto sm:px-6 lg:px-8 pt-6">
     <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-        @foreach ($houses as $house)
+        @foreach (Auth::user()->houses as $house)
             <x-house-card :house="$house" />
         @endforeach
     </div>
