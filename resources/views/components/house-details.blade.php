@@ -194,7 +194,7 @@
             </div>
 
             {{-- Right: Top bid card --}}
-            <div class="flex flex-col gap-4">
+            <div class="flex flex-col gap-4 max-h-min">
                 <div class="rounded-xl border border-gray-200 p-5 h-fit">
                     <div class="flex items-center gap-2">
                         <p class="text-base font-semibold text-gray-900">Top bid:</p>
@@ -207,34 +207,35 @@
 
                     <div class="mt-4 flex items-center gap-3">
                         <img src="{{ $avatar }}"
-                            alt="{{ $bidder?->name ? 'Avatar of ' . $bidder->name : 'Bidder avatar' }}"
-                            class="h-10 w-10 rounded-full object-cover ring-1 ring-gray-200" loading="lazy">
+                            alt="Avatar of bidder"
+                            class="h-10 w-10 rounded-full object-cover ring-1 ring-gray-200 {{ $bidder->id == Auth::user()->id || Auth::user()->role == 'admin' ? "" : 'blur-sm' }}" loading="lazy">
                         <div class="min-w-0">
                             <p class="truncate text-sm font-medium text-gray-900">
-                                {{ $bidder?->name ?? 'Anonymous bidder' }}
+                                {{ $bidder->id == Auth::user()->id || Auth::user()->role == 'admin' ? $bidder->name : 'Anonymous bidder'}}
                             </p>
                         </div>
                     </div>
                 </div>
 
                 <p class="text-base font-semibold text-gray-900">Bids</p>
-                <div class="rounded-xl border border-gray-200 p-5 max-h-full overflow-auto">
+                <div class="rounded-xl border border-gray-200 p-5 gap-2 flex flex-col max-h-[290px] overflow-auto">
                     @foreach ($bids as $bid)
                         @php
-                            $user = $bid->user
+                            $user = $bid->user;
+                            $isAdmin = $user->id == Auth::user()->id || Auth::user()->role == 'admin';
                         @endphp
-                        <div class="flex flex-nowrap items-center">
+                        <div class="flex flex-nowrap odd:bg-neutral-100 pl-2 rounded-xl items-center justify-between">
+                            <p class="font-medium">€{{ number_format($bid->value, 0) }}</p>
                             <div class="flex items-center gap-3">
-                                <img src="{{  asset('images/users/' . $user->featured_image) }}"
-                                    alt="{{ $user?->name ? 'Avatar of ' . $user->image : 'Bid->user avatar' }}"
-                                    class="h-10 w-10 rounded-full object-cover ring-1 ring-gray-200" loading="lazy">
                                 <div class="min-w-0">
-                                    <p class="truncate text-sm font-medium text-gray-900">
-                                        {{ $user?->name ?? 'Anonymous bid->user' }}
+                                    <p class="truncate text-sm text-gray-900">
+                                        {{ $isAdmin ? $user->name : 'Anonymous' }}
                                     </p>
                                 </div>
+                                <img src="{{  asset('images/users/' . $user->featured_image) }}"
+                                    alt="{{ $user->name ? 'Avatar of ' . $user->image : 'Bid->user avatar' }}"
+                                    class="h-10 w-10 rounded-full object-cover ring-1 ring-gray-200 {{ $isAdmin ? '' : 'blur-sm' }}" loading="lazy">
                             </div>
-                            €{{ number_format($bid->value, 0) }}
                         </div>
                     @endforeach
                 </div>

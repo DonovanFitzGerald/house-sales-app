@@ -27,19 +27,5 @@
                 <p class="text-sm text-gray-600">No realtors assigned yet.</p>
             @endif
         </section>
-
-        <section class="mt-6">
-            <h2 class="mb-4 text-base font-semibold text-gray-900">Bids</h2>
-
-            @if($bids->count())
-                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                    @foreach($bids as $bid)
-                        <x-bid-card :bid="$bid" />
-                    @endforeach
-                </div>
-            @else
-                <p class="text-sm text-gray-600">No bids yet.</p>
-            @endif
-        </section>
     </div>
 </x-app-layout>
