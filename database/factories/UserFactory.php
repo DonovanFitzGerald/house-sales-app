@@ -45,6 +45,9 @@ class UserFactory extends Factory
         ]);
     }
 
+    /**
+     * Change the user role to 'realtor'
+     */
     public function realtor(): static
     {
         return $this->state(fn (array $attributes) => [
