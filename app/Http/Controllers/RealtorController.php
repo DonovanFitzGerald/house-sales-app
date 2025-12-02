@@ -93,6 +93,10 @@ class RealtorController extends Controller
      */
     public function destroy(User $realtor)
     {
-        //
+                // Delete the house record
+        User::where('id', $realtor->id)->delete();
+
+        // Redirect back with a success message
+        return back()->with('success', 'House deleted successfully.');
     }
 }
