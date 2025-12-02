@@ -81,11 +81,12 @@ class BidController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Bid $bid)
+    public function destroy(House $house, Bid $bid)
     {
         Bid::where('id', $bid->id)->delete();
 
         // Redirect back with a success message
-        return back()->with('success', 'Bid deleted successfully.');
+        return to_route('houses.show', $house)->with('success', 'Bid deleted successfully.');
+
     }
 }
