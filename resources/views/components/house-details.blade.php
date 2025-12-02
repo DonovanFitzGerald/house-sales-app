@@ -1,6 +1,7 @@
 @props(['house', 'bids', 'availableRealtors' => null])
 
 @php
+    // Case match tailwind styling for BER badge
     $badgeFor = static function (?string $rating): string {
         $rating = strtoupper((string) $rating);
         return match ($rating) {
@@ -13,6 +14,7 @@
         };
     };
 
+    // Format address and image asset
     $img = $house->featured_image_url ?? asset('images/houses/' . $house->featured_image);
     $address = trim(collect([
         $house->address_line_1,
@@ -22,11 +24,13 @@
         $house->zip
     ])->filter()->implode(', '));
 
+    // Get top bid and bidder
     $topBid = $bids[0] ?? null;
     $bidder = $topBid?->user;
     $avatar = $bidder?->featured_image_url
         ?? ($bidder?->featured_image ? asset('images/users/' . $bidder->featured_image) : asset('images/users/default.jpg'));
 
+    // Check if user has admin options
     $hasAdminOptions = auth()->user()->role === 'admin'
         || in_array(auth()->id(), $house->realtors->pluck('id')->all());
 @endphp
