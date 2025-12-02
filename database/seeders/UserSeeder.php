@@ -23,7 +23,6 @@ class UserSeeder extends Seeder
         User::factory()->create([
             'name' => 'Donovan',
             'email' => 'donovan@user.com',
-            
             'featured_image' => 'placeholder.jpg',
         ]);
 
@@ -31,7 +30,6 @@ class UserSeeder extends Seeder
             'name' => 'Donovan Realtor',
             'email' => 'donovan@realtor.com',
             'role' => 'realtor',
-
             'featured_image' => 'placeholder.jpg',
         ]);
 

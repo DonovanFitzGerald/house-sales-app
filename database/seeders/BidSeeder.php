@@ -24,7 +24,7 @@ class BidSeeder extends Seeder
 
             // Create escalating bids for each house
             for ($i = 0; $i < $bidCount; $i++) {
-                $currentBid = (int) ($currentBid * (fake()->numberBetween(105, 120) / 100));
+                $currentBid = round($currentBid * (fake()->numberBetween(105, 120) / 100));
 
                 Bid::factory()->create([
                     'user_id' => $userIds->random(),

@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 class Bid extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'value', 'house_id', 'user_id',
     ];

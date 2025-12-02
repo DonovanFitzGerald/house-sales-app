@@ -55,7 +55,6 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(House::class);
     }
-    
 
     /**
      * Get all houses this user has placed bids on

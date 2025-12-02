@@ -214,6 +214,7 @@ class HouseController extends Controller
     {
         // Attach the realtor to the house
         $house->realtors()->attach($request['realtor_id']);
+
         return back()->with('success', 'Realtor assigned successfully.');
     }
 
@@ -224,6 +225,7 @@ class HouseController extends Controller
     {
         // Detach the realtor from the house
         $house->realtors()->detach($request['realtor_id']);
+
         return back()->with('success', 'Realtor removed successfully.');
     }
 }
