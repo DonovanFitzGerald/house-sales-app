@@ -48,21 +48,18 @@ class User extends Authenticatable
         ];
     }
 
+    /**
+     * Get houses assigned to this user
+     */
     public function houses()
     {
         return $this->belongsToMany(House::class);
     }
+    
 
-    public function realtors()
-    {
-        return $this->where('users.role', 'realtor');
-    }
-
-    public function users()
-    {
-        return $this->where('users.role', 'users');
-    }
-
+    /**
+     * Get all houses this user has placed bids on
+     */
     public function housesBidOn()
     {
         return $this->belongsToMany(House::class, 'bids', 'user_id', 'house_id')

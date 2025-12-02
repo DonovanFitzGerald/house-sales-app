@@ -122,7 +122,7 @@
         </article>
     </a>
 
-    {{-- Admin actions --}}
+    {{-- Admin actions: visible to admins and assigned realtors --}}
     @if($user && (in_array($user->id, $house->realtors->pluck('id')->all()) || $user->role === 'admin'))
         <div class="mt-3 flex items-center justify-end gap-2 text-xs">
             <a href="{{ route('houses.edit', $house) }}"

@@ -24,17 +24,26 @@ class House extends Model
         'featured_image',
     ];
 
+    /**
+     * Get realtors assigned to this house via the house_user pivot table.
+     */
     public function realtors()
     {
         return $this->belongsToMany(User::class)
             ->where('users.role', 'realtor');
     }
 
+    /**
+     * Get all bids for this house, ordered by highest value first.
+     */
     public function bids()
     {
         return $this->hasMany(Bid::class)->orderBy('value', 'desc');
     }
 
+    /**
+     * Get the bid with the max value for this house
+     */
     public function topBid()
     {
         return $this->hasOne(Bid::class)->ofMany('value', 'max');

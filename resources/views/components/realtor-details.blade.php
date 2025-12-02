@@ -4,15 +4,19 @@
     $avatar = $realtor->featured_image_url
         ?? asset('images/users/' . ($realtor->featured_image ?: 'default.jpg'));
 
-    $houses = $realtor->houses; 
-    $totalHouseValue = 0; 
+    // Calculate metrics based on assigned houses
+    $houses = $realtor->houses;
+
+    $totalHouseValue = 0;
     $highestHouseValue = 0;
-    $houseCount = count($houses); 
-    foreach($houses as $house){ 
-    $houseValue = $house->topBid->value;
-    $totalHouseValue += $houseValue; 
-    $highestHouseValue = $houseValue > $highestHouseValue ? $houseValue : $highestHouseValue; 
-    } 
+    $houseCount = count($houses);
+
+    foreach($houses as $house){
+        $houseValue = $house->topBid->value;
+        $totalHouseValue += $houseValue;
+        $highestHouseValue = $houseValue > $highestHouseValue ? $houseValue : $highestHouseValue;
+    }
+
     $averageHouseValue = round($totalHouseValue / $houseCount);
 @endphp
 
