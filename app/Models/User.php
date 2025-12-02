@@ -66,9 +66,9 @@ class User extends Authenticatable
     public function housesBidOn()
     {
         return $this->belongsToMany(House::class, 'bids', 'user_id', 'house_id')
-        ->distinct()
-        ->with(['bids' => function ($query) {
-            $query->where('user_id', $this->id);
-        }]);
+            ->distinct()
+            ->with(['bids' => function ($query) {
+                $query->where('user_id', $this->id);
+            }]);
     }
 }
