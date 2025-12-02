@@ -14,7 +14,7 @@
     };
 
     $image = $house->featured_image_url ?? asset('images/houses/' . $house->featured_image);
-    $topBidValue = $house->bids_max_value;
+    $topBidValue = $house->topBid->value;
     $user = auth()->user();
 @endphp
 
