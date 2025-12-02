@@ -1,6 +1,5 @@
 <x-app-layout>
-    
-
+    {{-- Render Different Dashboards based on user role --}}
     @switch(Auth::user()->role)
             @case('admin')
             <x-admin-dashboard />
