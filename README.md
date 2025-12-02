@@ -1,7 +1,7 @@
 # House Sales App
 
 A house listing management app built with Laravel 12, Blade, Tailwind CSS, Alpine.js, and Breeze. This application provides a platform for browsing and managing house listings.
-This project features a responsive design built with Tailwind CSS and powered by Laravel's framework. The application supports two user roles: regular users who can browse and administrators who have full CRUD capabilities for managing listings.
+This project features a responsive design built with Tailwind CSS and powered by Laravel's framework. The application supports three user roles: regular users who can browse and place bids, realtors who manage their assigned listings, and administrators who have full CRUD capabilities for managing listings and assigning realtors.
 
 ## Features
 
@@ -23,6 +23,21 @@ This project features a responsive design built with Tailwind CSS and powered by
 - **Update**: Edit existing house information using form modal
 - **Delete**: Remove houses from the system
 - **Form Validation**: Server-side validation for all house data
+
+### Realtor Management
+
+- **Realtor Listings**: Browse all available realtors with their details
+- **Realtor Profiles**: View individual realtor profiles with assigned house listings
+- **Realtor Assignment**: Assign multiple realtors to house listings (Admin only)
+- **Realtor Dashboard**: Realtors can view their assigned listings
+- **Search Filtering**: Search realtors by name or email
+
+### Bidding System
+
+- **Place Bids**: Users can place bids on house listings
+- **Bid History**: View all bids on a property sorted by highest value
+- **Top Bid Display**: See the highest bid for each property
+- **Bid Tracking**: Users can track houses they've bid on
 
 ## Requirements
 
@@ -93,13 +108,18 @@ After running the database seeds, you can log in with the following credentials:
 
 **Admin Account:**
 
-- Email: `admin@example.com`
+- Email: `donovan@admin.com`
+- Password: `password`
+
+**Realtor Account:**
+
+- Email: `donovan@realtor.com`
 - Password: `password`
 
 **Regular User Account:**
 
-- Email: `donovan.fitzg@gmail.com`
-- Password: `12345678`
+- Email: `donovan@user.com`
+- Password: `password`
 
 ### Useful Commands
 
@@ -115,8 +135,10 @@ After running the database seeds, you can log in with the following credentials:
 - `id`: Primary key
 - `name`: User's full name
 - `email`: Unique email address
+- `phone_number`: User's phone number (optional)
 - `password`: Hashed password
-- `role`: User role (admin/user)
+- `role`: User role (admin/user/realtor)
+- `featured_image`: Filename of the user's profile image (optional)
 - `email_verified_at`: Email verification timestamp
 - `remember_token`: Remember me token
 - `created_at`, `updated_at`: Timestamps
@@ -136,4 +158,20 @@ After running the database seeds, you can log in with the following credentials:
 - `energy_rating`: Energy efficiency rating (A1-G)
 - `house_type`: Type of house (detached, semi-detached, etc.)
 - `featured_image`: Filename of the uploaded image
+- `created_at`, `updated_at`: Timestamps
+
+### House_User Table (Realtor Assignment)
+
+- `id`: Primary key
+- `user_id`: Foreign key to users table (realtor)
+- `house_id`: Foreign key to houses table
+- `created_at`, `updated_at`: Timestamps
+- Unique constraint on (house_id, user_id) to prevent duplicate assignments
+
+### Bids Table
+
+- `id`: Primary key
+- `user_id`: Foreign key to users table (bidder)
+- `house_id`: Foreign key to houses table
+- `value`: Bid amount (integer)
 - `created_at`, `updated_at`: Timestamps
