@@ -13,7 +13,11 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('houses.index')" :active="request()->routeIs('houses.index')">
-                        {{ __('View All Houses') }}
+                        {{ __('View Houses') }}
+                    </x-nav-link>
+
+                    <x-nav-link :href="route('realtors.index')" :active="request()->routeIs('realtors.index')">
+                        {{ __('View Realtors') }}
                     </x-nav-link>
 
                     @if(auth()->user()->role === 'admin')
