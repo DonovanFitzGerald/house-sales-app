@@ -27,7 +27,7 @@ class UserSeeder extends Seeder
             'featured_image' => 'placeholder.jpg',
         ]);
 
-        User::factory()->realtor()->create([
+        User::factory()->create([
             'name' => 'Donovan Realtor',
             'email' => 'donovan@realtor.com',
             'role' => 'realtor',
