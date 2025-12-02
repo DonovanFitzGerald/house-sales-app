@@ -34,7 +34,7 @@
     @if(Auth::user()->role == 'admin')
         <div class="mt-4 flex space-x-2">
             <a href="{{ route('realtors.edit', $realtor) }}"
-                class="text-white bg-orange-500 hover:bg-orange-700 font-bold py-2 px-4 rounded-lg">
+                class="cursor-pointer inline-flex items-center justify-center rounded-full bg-amber-500 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-amber-600">
                 Edit
             </a>
             <form action="{{ route('realtors.destroy', $realtor) }}" method="POST"
@@ -42,7 +42,7 @@
                 @csrf
                 @method('DELETE')
                 <button type="submit"
-                    class="bg-red-500 cursor-pointer hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg">
+                    class="cursor-pointer inline-flex w-full items-center justify-center rounded-full bg-red-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-red-700">
                     Delete
                 </button>
             </form>

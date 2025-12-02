@@ -126,7 +126,7 @@
     @if($user && (in_array($user->id, $house->realtors->pluck('id')->all()) || $user->role === 'admin'))
         <div class="mt-3 flex items-center justify-end gap-2 text-xs">
             <a href="{{ route('houses.edit', $house) }}"
-                class="inline-flex items-center gap-1 rounded-lg border border-amber-200 bg-amber-50 px-3 py-1.5 font-medium text-amber-700 hover:bg-amber-100 hover:border-amber-300 ">
+                class="cursor-pointer inline-flex items-center justify-center rounded-full bg-amber-500 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-amber-600">
                 Edit
             </a>
 
@@ -135,7 +135,7 @@
                 @csrf
                 @method('DELETE')
                 <button type="submit"
-                    class="inline-flex items-center gap-1 rounded-lg border border-red-200 bg-red-50 px-3 py-1.5 font-medium text-red-700 hover:bg-red-100 hover:border-red-300 cursor-pointer ">
+                    class="cursor-pointer inline-flex w-full items-center justify-center rounded-full bg-red-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-red-700">
                     Delete
                 </button>
             </form>
