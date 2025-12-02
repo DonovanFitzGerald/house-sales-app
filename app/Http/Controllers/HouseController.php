@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\House;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class HouseController extends Controller
@@ -114,8 +115,13 @@ class HouseController extends Controller
     {
         $realtors = $house->realtors;
         $bids = $house->bids;
+        $availableRealtors = User::where('role', 'realtor')->get();
 
-        return view('houses.show')->with('house', $house)->with('realtors', $realtors)->with('bids', $bids);
+        return view('houses.show')
+            ->with('house', $house)
+            ->with('realtors', $realtors)
+            ->with('bids', $bids)
+            ->with('availableRealtors', $availableRealtors);
     }
 
     /**
@@ -185,5 +191,39 @@ class HouseController extends Controller
 
         // Redirect back with a success message
         return to_route('houses.index')->with('success', 'House deleted successfully.');
+    }
+
+    /**
+     * Show the page to select a realtor to assign to a house.
+     */
+    public function selectRealtor(House $house)
+    {
+        $availableRealtors = User::where('role', 'realtor')->get();
+        $assignedRealtorIds = $house->realtors->pluck('id')->toArray();
+
+        return view('houses.select-realtor')
+            ->with('house', $house)
+            ->with('availableRealtors', $availableRealtors)
+            ->with('assignedRealtorIds', $assignedRealtorIds);
+    }
+
+    /**
+     * Assign a realtor to a house.
+     */
+    public function assignRealtor(Request $request, House $house)
+    {
+        // Attach the realtor to the house
+        $house->realtors()->attach($request['realtor_id']);
+        return back()->with('success', 'Realtor assigned successfully.');
+    }
+
+    /**
+     * Remove a realtor from a house.
+     */
+    public function removeRealtor(Request $request, House $house)
+    {
+        // Detach the realtor from the house
+        $house->realtors()->detach($request['realtor_id']);
+        return back()->with('success', 'Realtor removed successfully.');
     }
 }

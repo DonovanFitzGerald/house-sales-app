@@ -24,4 +24,9 @@ Route::resource('houses', HouseController::class);
 Route::resource('houses.bids', BidController::class);
 Route::resource('realtors', RealtorController::class);
 
+// Realtor assignment routes
+    Route::get('/houses/{house}/select-realtor', [HouseController::class, 'selectRealtor'])->name('houses.select-realtor');
+    Route::post('/houses/{house}/assign-realtor', [HouseController::class, 'assignRealtor'])->name('houses.assign-realtor');
+    Route::post('/houses/{house}/remove-realtor', [HouseController::class, 'removeRealtor'])->name('houses.remove-realtor');
+
 require __DIR__.'/auth.php';

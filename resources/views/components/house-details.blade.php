@@ -1,4 +1,4 @@
-@props(['house', 'bids'])
+@props(['house', 'bids', 'availableRealtors' => null])
 
 @php
     $badgeFor = static function (?string $rating): string {
@@ -178,6 +178,12 @@
                             Edit
                         </button>
 
+                        <a
+                            href="{{ route('houses.select-realtor', $house) }}"
+                            class="cursor-pointer inline-flex items-center justify-center rounded-full bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-blue-700">
+                            Assign Realtor
+                        </a>
+
                         <form
                             action="{{ route('houses.destroy', $house) }}"
                             method="POST"
@@ -311,14 +317,14 @@
         </dialog>
 
         <script>
-            const dialogEl = document.getElementById('editDialog');
+            const editDialogEl = document.getElementById('editDialog');
 
             function openEditDialog() {
-                if (!dialogEl.open) dialogEl.showModal();
+                if (!editDialogEl.open) editDialogEl.showModal();
             }
 
             function closeEditDialog() {
-                if (dialogEl.open) dialogEl.close();
+                if (editDialogEl.open) editDialogEl.close();
             }
         </script>
     @endif

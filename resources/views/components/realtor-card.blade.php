@@ -1,4 +1,4 @@
-@props(['realtor'])
+@props(['realtor', 'house' => null])
 <div>
     <article class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition hover:shadow-md">
         <a href="{{ route('realtors.show', $realtor) }}" class="group block focus:outline-none">
@@ -33,19 +33,35 @@
     {{-- Admin actions --}}
     @if(Auth::user()->role == 'admin')
         <div class="mt-4 flex space-x-2">
-            <a href="{{ route('realtors.edit', $realtor) }}"
-                class="cursor-pointer inline-flex items-center justify-center rounded-full bg-amber-500 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-amber-600">
-                Edit
-            </a>
-            <form action="{{ route('realtors.destroy', $realtor) }}" method="POST"
-                onsubmit="return confirm('Are you sure you want to delete this realtor?');">
-                @csrf
-                @method('DELETE')
-                <button type="submit"
-                    class="cursor-pointer inline-flex w-full items-center justify-center rounded-full bg-red-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-red-700">
-                    Delete
-                </button>
-            </form>
+            @if($house)
+                {{-- Remove from house --}}
+                <form action="{{ route('houses.remove-realtor', $house) }}" method="POST"
+                    onsubmit="return confirm('Remove this realtor from the house?');"
+                    class="flex-1">
+                    @csrf
+                    <input type="hidden" name="realtor_id" value="{{ $realtor->id }}">
+                    <button type="submit"
+                        class="cursor-pointer inline-flex w-full items-center justify-center rounded-full bg-red-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-red-700">
+                        Remove
+                    </button>
+                </form>
+            @else
+                {{-- Edit realtor --}}
+                <a href="{{ route('realtors.edit', $realtor) }}"
+                    class="cursor-pointer inline-flex items-center justify-center rounded-full bg-amber-500 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-amber-600">
+                    Edit
+                </a>
+                {{-- Delete realtor --}}
+                <form action="{{ route('realtors.destroy', $realtor) }}" method="POST"
+                    onsubmit="return confirm('Are you sure you want to delete this realtor?');">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit"
+                        class="cursor-pointer inline-flex w-full items-center justify-center rounded-full bg-red-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-red-700">
+                        Delete
+                    </button>
+                </form>
+            @endif
         </div>
     @endif
 </div>

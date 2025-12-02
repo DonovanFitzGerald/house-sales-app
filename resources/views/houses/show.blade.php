@@ -11,7 +11,7 @@
             </a>
         </div>
 
-        <x-house-details :house="$house" :bids="$bids" />
+        <x-house-details :house="$house" :bids="$bids" :availableRealtors="$availableRealtors" />
 
         <section class="mt-8">
             <h2 class="mb-4 text-base font-semibold text-gray-900">Listing Realtors</h2>
@@ -19,7 +19,7 @@
                 <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
 
                     @foreach($realtors as $realtor)
-                        <x-realtor-card :realtor="$realtor" />
+                        <x-realtor-card :realtor="$realtor" :house="$house" />
                     @endforeach
 
                 </div>
