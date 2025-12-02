@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -9,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Bid extends Model
 {
+    use HasFactory;
     protected $fillable = [
         'value', 'house_id', 'user_id',
     ];

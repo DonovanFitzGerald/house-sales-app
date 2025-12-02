@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\Bid;
 use App\Models\House;
 use App\Models\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class BidSeeder extends Seeder
 {
@@ -14,27 +14,24 @@ class BidSeeder extends Seeder
      */
     public function run(): void
     {
-        $faker = fake();
-
-        $users = User::where('role', 'user')->get();
+        $userIds = User::where('role', 'user')->pluck('id');
         $houses = House::all();
 
-        $rows = [];
-
         foreach ($houses as $house) {
+            $bidCount = fake()->numberBetween(1, 20);
+            $baseBid = $house->beds * fake()->numberBetween(100000, 150000);
+            $currentBid = $baseBid;
 
-            $topBid = $house->beds * $faker->numberBetween(100000, 150000);
+            // Create escalating bids for each house
+            for ($i = 0; $i < $bidCount; $i++) {
+                $currentBid = (int) ($currentBid * (fake()->numberBetween(105, 120) / 100));
 
-            for ($i = 0; $i <= $faker->numberBetween(1, 20); $i++) {
-                $topBid = $topBid * ($faker->numberBetween(105, 120) / 100);
-                $rows[] = [
-                    'user_id' => $faker->randomElement($users)->id,
+                Bid::factory()->create([
+                    'user_id' => $userIds->random(),
                     'house_id' => $house->id,
-                    'value' => $topBid,
-                ];
+                    'value' => $currentBid,
+                ]);
             }
         }
-
-        DB::table('bids')->insertOrIgnore($rows);
     }
 }
