@@ -208,12 +208,12 @@
                             <img
                                 src="{{ $avatar }}"
                                 alt="Avatar of bidder"
-                                class="h-10 w-10 rounded-full object-cover ring-1 ring-gray-200 {{ $bidder->id == auth()->id() || auth()->user()->role === 'admin' || $hasAdminOptions ? '' : 'blur-sm' }}"
+                                class="h-10 w-10 rounded-full object-cover ring-1 ring-gray-200 {{ $bidder->id == auth()->id() || $hasAdminOptions ? '' : 'blur-sm' }}"
                                 loading="lazy"
                             >
                             <div class="min-w-0">
                                 <p class="truncate text-sm font-medium text-gray-900">
-                                    {{ $bidder->id == auth()->id() || auth()->user()->role === 'admin' || $hasAdminOptions ? $bidder->name : 'Anonymous bidder' }}
+                                    {{ $bidder->id == auth()->id() || $hasAdminOptions ? $bidder->name : 'Anonymous bidder' }}
                                 </p>
                                 <p class="text-xs text-gray-500">
                                     Highest current offer
