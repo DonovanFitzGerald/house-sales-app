@@ -74,7 +74,7 @@
                         <p class="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Email</p>
                         <p class="mt-1 font-medium text-gray-900 break-all">
                             <a href="mailto:{{ $realtor->email }}"
-                               class="text-indigo-600 underline-offset-2 hover:text-indigo-700 hover:underline">
+                                class="text-indigo-600 underline-offset-2 hover:text-indigo-700 hover:underline">
                                 {{ $realtor->email }}
                             </a>
                         </p>
@@ -128,18 +128,6 @@
                     </div>
                 </div>
             </section>
-
-            {{-- Optional bio --}}
-            @if (!empty($realtor->bio ?? null))
-                <section class="space-y-2">
-                    <h2 class="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">
-                        About {{ $realtor->name }}
-                    </h2>
-                    <p class="text-sm leading-relaxed text-gray-700">
-                        {{ $realtor->bio }}
-                    </p>
-                </section>
-            @endif
         </div>
     </div>
 </section>
